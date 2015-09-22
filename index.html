@@ -1,0 +1,128 @@
+<head>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+  <script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
+
+  <link data-require="bootstrap-css@*" data-semver="3.3.5" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+  
+  <?!= include('style'); ?>
+  
+</head>
+
+
+
+<body>
+
+  <!-- navigation -->
+  <div><?!= include('navbar'); ?></div>
+  
+  <div class="container-fluid">
+  
+      <!-- Home page -->
+      <div class="page" id="index">
+        <div>
+          <div class="row text-center">
+            <h1 class="text-nvBlue">A<small>cademic</small> E<small>nrichment</small> I<small>ntervention</small> P<small>rogram</small></h1>
+          </div>
+          <div class="row vertical-center" id="homeBtns" style="display:none">
+            <a class="btn btn-lg btn-primary" type="button" id="subProgramBtn">Submit AEIP Program</a>
+            <button class="btn btn-lg btn-primary btn-validated" type="button" id="procReqBtn" disabled="disabled">
+              Process Requests
+            </button>
+          </div> <!-- home btns -->
+          <div id="usrValid" class="row vertical-center">
+           <form id="userForm" class="form-inline" onsubmit="return false">
+             <div class="form-group">
+              <label class="control-label col-md-3" for="usrEmail"></label>
+              <div class="">
+                <div class="input-group">
+                  <span class="input-group-addon">@</span>
+                  <input type="email" class="form-control col-md-6" name="usrEmail"  id="usrEmail"
+                  placeholder="Your New Visions email">
+                </div> <!-- input-group -->
+              </div>
+            </div> <!-- form-gorup -->
+            <button class="btn btn-primary" id="usrEmailBtn">Set Email</button>
+           </form>  
+          </div>
+        </div>
+      </div>
+      
+      <!-- Submit Program Form -->
+      <div class="page" id="subProgramFormPage" style="display:none"><?!= include('submit_program_form'); ?></div>
+      
+      <!-- Process Trip Requests -->
+      <div class="page" id="processReqsPage" style="display:none"><?!= include('process_requests_page'); ?></div>
+      
+  </div>
+
+</body>
+
+
+
+<script>
+$(function(){
+
+  $(document).ready(loadIndexActions);
+  $('#subProgramBtn').click(loadProgramForm);
+  $('#procReqBtn').click(loadProcPage);
+  $('#usrEmailBtn').click(getUserEmail);
+  
+  function getUserEmail(){
+    var $email = $('#usrEmail').val().trim();
+    google.script.run.withSuccessHandler(showButtons).setCurrentUser($email);
+  }
+  
+  function showButtons(){
+    google.script.run.withSuccessHandler(verifyUser).validateUser();
+    $('#usrValid').hide();
+    $('#homeBtns').show();
+    $('#reqBtn').prop('disabled', false);
+  }
+  
+  function loadIndexActions(){
+    google.script.run.withSuccessHandler(usernameCheck).getCurrentUser();
+  }
+  
+  function usernameCheck(answer){
+    if(answer == true){
+      showButtons();
+    }
+    else{
+      $('#homeBtns').hide();
+      $('#usrValid').show();
+    }
+  }
+  
+  function loadProgramForm(resultHtml){
+    $('.page').hide();
+    $('#subProgramFormPage').show();
+    /* Change the following later */
+//    $('#trpSubConf').hide(); 
+//    $('#trpFormSub').show();
+//    $('#trpForm').trigger("reset");
+  }
+  
+  function loadProcPage(){
+    google.script.run.withSuccessHandler(updateActionItems).getProgramActionItems(); /* Will need to create later */
+    $('.page').hide();
+    $('#processReqsPage').show();
+  }
+  
+  function verifyUser(answer){
+    if(answer == true){
+      $('.btn-validated').prop('disabled', false);
+    }
+  }
+  
+  function updateActionItems(resultHtml){
+    var $output = $('#actionItems');
+    $output.html(resultHtml);
+  }    
+
+});
+
+</script>
