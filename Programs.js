@@ -5,7 +5,7 @@ var dbString = PropertiesService.getScriptProperties().getProperty('DBSTRING');
 function processProposalSubmission(formObj){
   var test, programId, user, school, query, newId, html;
   
-  programId = 'AEIP' + PropertiesService.getScriptProperties().getProperty('nextProgramId');
+  programId = 'AEIP' + PropertiesService.getScriptProperties().getProperty('nextProgramId').toString();
   user = PropertiesService.getUserProperties().getProperty('currentUser');
   school = getCurrentSchool(user);
   query = 'INSERT INTO Programs (program_id, program_name, school, submitted_by, date_submitted, post_date, '
@@ -19,7 +19,7 @@ function processProposalSubmission(formObj){
   
   NVGAS.insertSqlRecord(dbString, [query]);
   
-  newId = Number(PropertiesService.getScriptProperties().getProperty('nextProgramId')) + 1;
+  newId = (Number(PropertiesService.getScriptProperties().getProperty('nextProgramId')) + 1).toString();
   PropertiesService.getScriptProperties().setProperty('nextProgramId', newId);
   
   html = HtmlService.createTemplateFromFile('new_proposal_confirmation');
