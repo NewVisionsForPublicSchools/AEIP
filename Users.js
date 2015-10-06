@@ -49,6 +49,17 @@ function getUserRole(user){
 
 
 
+function getCurrentSchool(user){
+  var test, currentUser, query, userSchool;
+  
+  currentUser = user || PropertiesService.getUserProperties().getProperty('currentUser');
+  query = 'SELECT school FROM Users WHERE username = "' + currentUser + '"'
+  userSchool = NVGAS.getSqlRecords(dbString, query)[0].school;
+  return userSchool;
+}
+
+
+
 function getStaffListInfo(username){
   var test, staffListSs, staffListSheet, staffList, userRecord, userSchool, query, class, name;
   

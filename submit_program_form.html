@@ -41,7 +41,7 @@
       
       <div class="form-group">
         <label class="control-label col-md-3" for="posNum"></label>
-        <div class="col-md-2">
+        <div class="col-md-3">
           <div class="input-group" data-toggle="popover" data-placement="right" data-trigger="hover"
             title="Enter 1 if there is only one employee leading this program. Multiple numbers would indicate multiple staff each with the same minimum expectations. It does NOT indicate position and payment is split or shared between two or more staff.">
             <span class="input-group-addon">Number of Positions</span>
@@ -132,7 +132,7 @@
       
       <div class="form-group">
         <label class="control-label col-md-3" for="estHrs"></label>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="input-group">
             <span class="input-group-addon">Total Estimated Hours Per Trimester</span>
             <input type="number" min="0" class="form-control col-md-6" name="estHrs"  id="estHrs" required="true">
@@ -153,7 +153,7 @@
       
       <div class="form-group">
         <label class="control-label col-md-3" for="addReqs"></label>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="input-group" data-toggle="popover" data-placement="right" data-trigger="hover"
           title="Please indicate any additional reuqirements that may be needed for someone to be selected for this program">
             <span class="input-group-addon">Additional Requirements</span>
@@ -225,7 +225,7 @@ $(function () {
         values[this.name] = $(this).val();
     });
     
-    google.script.run.withSuccessHandler(displayPropConfirmation).processProposal(values);
+    google.script.run.withSuccessHandler(displayPropConfirmation).processProposalSubmission(values);
   }
   
   function displayPropConfirmation(resultHtml){
