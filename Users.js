@@ -61,7 +61,7 @@ function getCurrentSchool(user){
 
 
 function getStaffListInfo(username){
-  var test, staffListSs, staffListSheet, staffList, userRecord, userSchool, query, class, name;
+  var test, staffListSs, staffListSheet, staffList, userRecord, userSchool, query, class, name, userRole;
   
   staffListSs = SpreadsheetApp.openById(staffListId);
   staffListSheet = staffListSs.getSheetByName('Sheet1');
@@ -97,10 +97,21 @@ function getStaffListInfo(username){
         break;
     };
     
+    switch(userRecord.jobLevel){
+      case "Director of School Operations":
+        userRole = 'DSO';
+        break;
+      case "Principal":
+        userRole = 'P';
+        break;
+      default:
+        userRole = null;
+    };
+    
     class = userRecord.jobClass;
     name = userRecord.employeeName;
-    query = 'INSERT INTO Users (username, school, job_class, employee_name) VALUES("' + username + '","'
-            + userSchool + '","' + class + '","' + name + '")';
+    query = 'INSERT INTO Users (username, school, job_class, employee_name, roles) VALUES("' + username + '","'
+            + userSchool + '","' + class + '","' + name + '","' + userRole + '")';
     NVGAS.insertSqlRecord(dbString, [query])
     return true;
   }
