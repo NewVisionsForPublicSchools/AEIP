@@ -3,12 +3,14 @@ var dbString = PropertiesService.getScriptProperties().getProperty('DBSTRING');
 
 
 function processProposalSubmission(formObj){
-  var test, programId, user, school, programQuery, programDataQuery, querryArray, newId, html;
+  var test, programId, userObj, user, school, newQueue, programQuery, programDataQuery, querryArray, newId, html;
 
   queryArray = [];
   programId = 'AEIP' + PropertiesService.getScriptProperties().getProperty('nextProgramId').toString();
-  user = PropertiesService.getUserProperties().getProperty('currentUser');
-  school = getCurrentSchool(user);
+  userObj = JSON.parse(PropertiesService.getUserProperties().getProperty('currentUser'));
+  user = userObj.username
+  school = userObj.school;
+  newQueue = userObj.queue ? null : 'P';
   programQuery = 'INSERT INTO Programs (program_id, program_name, school, post_date, '
         + 'application_deadline, number_of_positions, program_type, program_time, trimester, start_date, end_date, '
         + 'program_schedule, hours_per_trimester, eligibility_requirements, additional_requirements, selection_criteria, '
@@ -17,8 +19,8 @@ function processProposalSubmission(formObj){
         + formObj.progType + '", "' + formObj.progTime + '", "' + formObj.progTri + '", "' + formObj.progStart + '", "'
         + formObj.progEnd + '", "' + formObj.progSched + '", "' + formObj.estHrs + '", "' + formObj.eligibility + '", "'
         + formObj.addReqs + '", "' + formObj.criteria + '", "' + formObj.goals + '", "' + formObj.duties + '")';
-  programDataQuery = 'INSERT INTO Program_Data (program_id, submitted_by, date_submitted) ' 
-        + 'VALUES("' + programId + '", "' + user + '", "' + new Date() + '")';
+  programDataQuery = 'INSERT INTO Program_Data (program_id, submitted_by, date_submitted, queue) ' 
+        + 'VALUES("' + programId + '", "' + user + '", "' + new Date() + '", "'  + newQueue + '")';
   
   queryArray.push(programQuery);
   queryArray.push(programDataQuery);

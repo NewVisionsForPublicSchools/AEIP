@@ -22,41 +22,45 @@ function getCurrentUser(){
 function validateUser(){
   var test, CURRENTUSER, query, validUser;
 
-  CURRENTUSER = PropertiesService.getUserProperties().getProperty('currentUser');
+  CURRENTUSER = JSON.parse(PropertiesService.getUserProperties().getProperty('currentUser')).username;
   query = 'SELECT * FROM Users WHERE username = "' + CURRENTUSER + '"';
   
   validUser = NVGAS.getSqlRecords(dbString, query)[0] ? NVGAS.getSqlRecords(dbString, query)[0].username : "";
 
-  return validUser ? true : getStaffListInfo(CURRENTUSER);
+  return validUser ? true : false;
 }
 
 
 
 function setCurrentUser(email){
-  PropertiesService.getUserProperties().setProperty('currentUser', email);
-}
-
-
-
-function getUserRole(user){
-  var test, currentUser, query, userRole;
+  var query, user;
   
-  currentUser = user || PropertiesService.getUserProperties().getProperty('currentUser');
-  query = 'SELECT roles FROM Users WHERE username = "' + currentUser + '"'
-  userRole = NVGAS.getSqlRecords(dbString, query)[0];
-  return userRole;
+  query = 'SELECT * FROM Users WHERE username = "' + email + '"';
+  user = NVGAS.getSqlRecords(dbString, query)[0] ? JSON.stringify(NVGAS.getSqlRecords(dbString, query)[0]) : JSON.stringify(getStaffListInfo(email));
+  PropertiesService.getUserProperties().setProperty('currentUser', user);
 }
 
 
 
-function getCurrentSchool(user){
-  var test, currentUser, query, userSchool;
-  
-  currentUser = user || PropertiesService.getUserProperties().getProperty('currentUser');
-  query = 'SELECT school FROM Users WHERE username = "' + currentUser + '"'
-  userSchool = NVGAS.getSqlRecords(dbString, query)[0].school;
-  return userSchool;
-}
+//function getUserRole(user){
+//  var test, currentUser, query, userRole;
+//  
+//  currentUser = user || PropertiesService.getUserProperties().getProperty('currentUser');
+//  query = 'SELECT roles FROM Users WHERE username = "' + currentUser + '"'
+//  userRole = NVGAS.getSqlRecords(dbString, query)[0];
+//  return userRole;
+//}
+
+
+
+//function getCurrentSchool(user){
+//  var test, currentUser, query, userSchool;
+//  
+//  currentUser = user || PropertiesService.getUserProperties().getProperty('currentUser');
+//  query = 'SELECT school FROM Users WHERE username = "' + currentUser + '"'
+//  userSchool = NVGAS.getSqlRecords(dbString, query)[0].school;
+//  return userSchool;
+//}
 
 
 
@@ -113,8 +117,8 @@ function getStaffListInfo(username){
     query = 'INSERT INTO Users (username, school, job_class, employee_name, roles) VALUES("' + username + '","'
             + userSchool + '","' + class + '","' + name + '","' + userRole + '")';
     NVGAS.insertSqlRecord(dbString, [query])
-    return true;
+    sQuery = 'SELECT * FROM Users WHERE username = "' + username + '"';
+    return NVGAS.getSqlRecords(dbString, [sQuery])[0];
   }
   return false;
-  debugger;
 }
