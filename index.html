@@ -43,8 +43,8 @@
             </div> -->
             <div class="row vertical-center" id="homeBtns" style="display:none">
               <a class="btn btn-lg btn-primary" type="button" id="subProgramBtn">Submit AEIP</a>
-              <button class="btn btn-lg btn-primary btn-validated" type="button" id="procReqBtn" disabled="disabled">
-                Process Requests
+              <button class="btn btn-lg btn-primary btn-validated" type="button" id="approvalBtn" disabled="disabled">
+                Approvals
               </button>
             </div> <!-- home btns -->
             <div id="usrValid" class="row vertical-center">
@@ -69,7 +69,7 @@
         <div class="page" id="subProgramFormPage" style="display:none"><?!= include('submit_program_form'); ?></div>
         
         <!-- Process Trip Requests -->
-        <div class="page" id="processReqsPage" style="display:none"><?!= include('process_requests_page'); ?></div>
+        <div class="page" id="approvalsPage" style="display:none"><?!= include('approvals_page'); ?></div>
         
         <!-- confirmation page -->
         <div class="page" id="confirmation" style="display:none"></div>
@@ -86,7 +86,7 @@ $(function(){
 
   $(document).ready(loadIndexActions);
   $('#subProgramBtn').click(loadProgramForm);
-  $('#procReqBtn').click(loadProcPage);
+  $('#approvalBtn').click(loadApprovalPage);
   $('#usrEmailBtn').click(getUserEmail);
   
   function getUserEmail(){
@@ -129,11 +129,11 @@ $(function(){
     $('#propForm').trigger("reset");
   }
   
-  function loadProcPage(){
+  function loadApprovalPage(){
     $('.load-bar').show();
-    google.script.run.withSuccessHandler(updateActionItems).getProgramActionItems(); /* Will need to create later */
+    google.script.run.withSuccessHandler(updateActionItems).getApprovalActionItems(); /* Will need to create later */
     $('.page').hide();
-    $('#processReqsPage').show();
+    $('#approvalsPage').show();
   }
   
   function verifyUser(answer){
