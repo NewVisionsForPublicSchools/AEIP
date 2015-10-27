@@ -131,7 +131,7 @@ $(function(){
   
   function loadApprovalPage(){
     $('.load-bar').show();
-    google.script.run.withSuccessHandler(updateActionItems).getApprovalActionItems(); /* Will need to create later */
+    google.script.run.withSuccessHandler(updateActionItems).getApprovalActionItems();
     $('.page').hide();
     $('#approvalsPage').show();
   }

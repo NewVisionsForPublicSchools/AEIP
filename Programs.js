@@ -1,4 +1,5 @@
 var dbString = PropertiesService.getScriptProperties().getProperty('DBSTRING');
+var USER = JSON.parse(PropertiesService.getUserProperties().getProperty('currentUser'));
 
 
 
@@ -8,7 +9,7 @@ function processProposalSubmission(formObj){
   queryArray = [];
   programId = 'AEIP' + PropertiesService.getScriptProperties().getProperty('nextProgramId').toString();
   userObj = JSON.parse(PropertiesService.getUserProperties().getProperty('currentUser'));
-  user = userObj.username
+  user = userObj.username;
   school = userObj.school;
   newQueue = userObj.queue ? null : 'P';
   programQuery = 'INSERT INTO Programs (program_id, program_name, school, post_date, '
@@ -19,8 +20,8 @@ function processProposalSubmission(formObj){
         + formObj.progType + '", "' + formObj.progTime + '", "' + formObj.progTri + '", "' + formObj.progStart + '", "'
         + formObj.progEnd + '", "' + formObj.progSched + '", "' + formObj.estHrs + '", "' + formObj.eligibility + '", "'
         + formObj.addReqs + '", "' + formObj.criteria + '", "' + formObj.goals + '", "' + formObj.duties + '")';
-  programDataQuery = 'INSERT INTO Program_Data (program_id, submitted_by, date_submitted, queue) ' 
-        + 'VALUES("' + programId + '", "' + user + '", "' + new Date() + '", "'  + newQueue + '")';
+  programDataQuery = 'INSERT INTO Program_Data (program_id, submitted_by, date_submitted, queue, status) ' 
+        + 'VALUES("' + programId + '", "' + user + '", "' + new Date() + '", "'  + newQueue + '", "New")';
   
   queryArray.push(programQuery);
   queryArray.push(programDataQuery);
@@ -88,4 +89,46 @@ function getProgramInfo(program_id){
         + program_id + '"';
   program = NVGAS.getSqlRecords(dbString, query)[0];
   return program;
+}
+
+
+
+function getApprovalActionItems(){
+  var test, queue, nr, tbf, html;
+  
+  queue = JSON.parse(getProgramsByRole());
+  nr = queue.filter(function(e){
+    return (e.status == 'New');
+  });
+
+  html = HtmlService.createTemplateFromFile('action_items');
+  html.newClass = nr.length > 0 ? 'nvRed' : 'nvGreen';
+  html.nr = nr.length;
+  html.role = queue[0].queue;
+
+  return html.evaluate().setSandboxMode(HtmlService.SandboxMode.IFRAME).getContent();
+}
+
+
+
+function getProgramsByRole(){
+  var test, username, userQuery, roles, programs;
+
+  username = USER.username;
+  school = USER.school;
+  userQuery = 'SELECT roles FROM Users WHERE username = "' + username + '"';
+  roles = NVGAS.getSqlRecords(dbString, userQuery).map(function(e){
+    return e.roles;
+  });
+ 
+  programs = JSON.stringify(roles.map(function(e){
+    var query = 'SELECT * FROM Programs p INNER JOIN Program_Data d on p.program_id = d.program_id WHERE (d.queue = "'
+      + e + '") AND (p.school = "' + school + '")';
+    return NVGAS.getSqlRecords(dbString, query);
+  }).reduce(function(e){
+    return e;
+  }));
+
+  CacheService.getUserCache().put('rolePrograms', programs);
+  return programs;
 }
