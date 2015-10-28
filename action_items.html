@@ -22,16 +22,16 @@
   <script>
   $(function(){
 	  
-    $('#nrBtn').click(showNewResults);
+    $('#nrBtn').click(showNewPrograms);
     
-    function showNewResults(){
-      google.script.run.withSuccessHandler(displayNewRequests).loadNewRequests();
+    function showNewPrograms(){
+      google.script.run.withSuccessHandler(displayNewPrograms).loadNewPrograms();
     }
     
-    function displayNewRequests(resultHtml){
-      var $output = $('#newRequests');
+    function displayNewPrograms(resultHtml){
+      var $output = $('#newPrograms');
       $output.html(resultHtml);
-      $('.reqData').hide();
+      $('.programData').hide();
       $output.show();
     }
 	    

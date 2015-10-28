@@ -132,3 +132,29 @@ function getProgramsByRole(){
   CacheService.getUserCache().put('rolePrograms', programs);
   return programs;
 }
+
+
+
+function loadNewPrograms(){
+  var test, queue, data, html;
+
+  queue = JSON.parse(CacheService.getUserCache().get('rolePrograms')) || getProgramsByRole();
+  data = queue.filter(function(e){
+    return e.status == 'New';
+  });
+  
+  html = HtmlService.createTemplateFromFile('new_programs_table');
+  html.data = data;
+  return html.evaluate().setSandboxMode(HtmlService.SandboxMode.IFRAME).getContent();
+}
+
+
+
+function loadNewProposalForm(program_id){
+  var test, html;
+
+  html = HtmlService.createTemplateFromFile('proposal_approval_form');
+  html.program = getProgramInfo(program_id);
+  html.approver = USER.username;
+  return html.evaluate().setSandboxMode(HtmlService.SandboxMode.IFRAME).getContent();
+}

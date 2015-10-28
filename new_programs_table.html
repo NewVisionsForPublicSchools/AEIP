@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <div>
+	  <h3 class="pull-left text-nvGray">Proposals To Be Processed</h3>
+	  <table id="newReqTbl" class="table table-striped">
+	    <tr>      
+	      <th class="bg-primary text-center">Program Name</th>
+	      <th class="bg-primary text-center">Posting Date</th>
+	      <th class="bg-primary text-center">Application Deadline</th>
+	      <th class="bg-primary text-center">Trimester(s)</th>
+	      <th class="bg-primary text-center">Number of Facilitators</th>
+	      <th class="bg-primary text-center">Start Date</th>
+	      <th class="bg-primary text-center">End Date</th>
+	      <th class="bg-primary text-center">Hours Per Trimester</th>
+	      <th class="bg-primary text-center">Proposal</th>
+	    </tr> <!-- close header row -->
+	    
+	    <? for(var i=0;i<data.length;i++){ ?>
+	      <tr>
+	        <td><b><?= data[i].program_name ?></b></td>
+	        <td><?= data[i].post_date ?></td>
+	        <td><?= data[i].application_deadline ?></td>
+	        <td><?= data[i].trimester ?></td>
+	        <td><?= data[i].number_of_positions ?></td>
+	        <td><?= data[i].start_date ?></td>
+	        <td><?= data[i].end_date ?></td>
+	        <td><?= data[i].hours_per_trimester ?></td>
+	        <td><button class="btn btn-xs btn-primary newProgramLink" value=<?= data[i].program_id ?>>
+	          <?= data[i].program_id ?>
+	        </button></td>
+	      </tr>
+	    <? } ?>
+	  </table>
+	</div>
+  </body>
+
+
+
+  <script>
+	  $(function(){
+	    
+	    $('.newProgramLink').click(goToLink);
+	    
+	    function goToLink(){
+		  $('.load-bar').show();
+	      var $proposal = $(this).attr("value");
+	      google.script.run.withSuccessHandler(displayNewProposalForm).loadNewProposalForm($proposal);
+	    }
+	    
+	    function displayNewProposalForm(resultHtml){
+	      var $output = $('#newProposalForm');
+	      $output.html(resultHtml);
+	      $('.programData').hide();
+	      $('.propsalForm').hide();
+	      $('#actionItems').hide();
+	      $output.show();
+	      $('.load-bar').hide();
+	    }
+	   
+	  });
+  </script>
+
+</html>
+
+
