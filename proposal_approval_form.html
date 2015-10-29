@@ -4,7 +4,7 @@
     <base target="_top">
   </head>
   <body>
-    <div class="text-center">
+    <div class="">
 	  <h2 class="text-nvGray">AEIP Proposal</h2>
 	  <br/>
 	  <div class=""> 
@@ -31,9 +31,9 @@
 	      </div>
 	      <br/>
 	      
-	      <div class="col-md-10 col-md-offset-1">
+	      <div class="col-md-8 col-md-offset-2 pull-center">
 	      
-		      <div class="form-group text-center">
+		      <div class="form-group">
 		        <label class="control-label col-md-4" for="principalResponse">Do you approve of this program?</label>
 		        <div class="col-md-3">
 		            <select class="form-control col-md-6" name="principalResponse" id="principalResponse" required="true">
@@ -89,8 +89,26 @@
   <script>
 	$(function(){
 
+		$('#procNewProgramForm').submit(submitPrincipalResponse);
 
+		function submitPrincipalResponse(){
+			$('.load-bar').show();
+			var $inputs = $('#procNewProgramForm :input');
+			var values = {};
+			$inputs.each(function(){
+				values[this.name] = $(this).val();
+			});
 
+			google.script.run.withSuccessHandler(displayPrincipalResponseConfirmation).processPrincipalProposalResponse(values);
+		}
+
+		function displayPrincipalResponseConfirmation(resultHtml){
+			var $output = $('#confirmation');
+			$output.html(resultHtml);
+			$('.page').hide();
+			$output.show();
+			$('.load-bar').hide();
+		}
 
 	});
   </script>

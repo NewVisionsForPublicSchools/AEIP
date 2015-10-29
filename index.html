@@ -31,6 +31,7 @@
     
     <div class="container-fluid">
         
+        <br/>
         <div class="row text-center">
           <h1 class="text-nvBlue">A<small>cademic</small> E<small>nrichment</small> I<small>ntervention</small> P<small>rogram</small></h1>
         </div>
@@ -133,6 +134,8 @@ $(function(){
     $('.load-bar').show();
     google.script.run.withSuccessHandler(updateActionItems).getApprovalActionItems();
     $('.page').hide();
+    $('.proposalForm').hide();
+    $('#actionItems').show();
     $('#approvalsPage').show();
   }
   
