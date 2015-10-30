@@ -64,3 +64,28 @@ function getDocumentMergeFields(document){
 	mergeFields = NVGAS.unique(fields);
 	return mergeFields;
 }
+
+
+
+function sendProgramAnnouncement(programId){
+	var test, program, recipientQuery, recipient, subject, html, template, fileQuery, fileId, announcement;
+
+	program = getProgramInfo(programId);
+	recipientQuery = 'SELECT username FROM Users WHERE (roles LIKE "%P%" OR roles LIKE "%DSO%") AND school = "' + program.school + '"';
+	recipient = NVGAS.getSqlRecords(dbString, recipientQuery).map(function(e){
+		return e.username;
+	}).join();
+	subject = 'Approved AEIP Proposal | ' + program.program_name + ' | ' + programId;
+	html = HtmlService.createTemplateFromFile('approved_proposal_email');
+	html.program = program;
+	html.url = PropertiesService.getScriptProperties().getProperty('leadershipUrl');
+	template = html.evaluate().setSandboxMode(HtmlService.SandboxMode.IFRAME).getContent();
+	fileQuery = 'SELECT pdf_id FROM Announcements WHERE program_id = "' + programId + '"';
+	fileId = NVGAS.getSqlRecords(dbString, fileQuery)[0].pdf_id;
+	announcement = DriveApp.getFileById(fileId);
+	GmailApp.sendEmail(recipient, subject,"",{htmlBody: template, attachments: announcement});
+	queryArray = [];
+	notificationQuery = 'UPDATE Program_Data SET program_announcement_notification = "' + new Date() + '" WHERE program_id = "' + programId + '"';
+	queryArray.push(notificationQuery);
+	NVGAS.insertSqlRecord(dbString, queryArray);
+}

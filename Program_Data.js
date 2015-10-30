@@ -11,6 +11,7 @@ function processPrincipalProposalResponse(formObj){
 	switch(formObj.principalResponse){
 		case 'Yes':
 			createProgramAnnouncement(formObj.programId);
+			sendProgramAnnouncement(formObj.programId);
 			queue = "";
 			break;
 		default:
