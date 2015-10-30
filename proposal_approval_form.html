@@ -45,15 +45,18 @@
 		      </div> <!-- form-group -->
 		      
 		      <div class="form-group" id="principalMoreInfoGrp" style="display:none">
-		        <label class="control-label col-md-3" for="principalMoreInfoReason"></label>
+		        <label class="control-label col-md-3" for="principalMoreInfoReason">What additional information is required?</label>
 		        <div class="col-md-8">
-		          <div class="input-group">
-		            <span class="input-group-addon">What additional information is required?</span>
-		            <textarea class="form-control col-md-8" rows="4" name="principalMoreInfoReason" id="principalMoreInfoReason">
-		            </textarea>
-		          </div> <!-- input-group -->
+		            <textarea class="form-control col-md-8" rows="4" name="principalMoreInfoReason" id="principalMoreInfoReason"></textarea>
 		        </div>
-		      </div> <!-- form-gorup -->
+		      </div> <!-- form-group -->
+
+		      <div class="form-group" id="principalProposalJustificationGrp" style="display:none">
+		        <label class="control-label col-md-3" for="principalProposalJustification">What is your reason for rejection?</label>
+		        <div class="col-md-8">
+		            <textarea class="form-control col-md-8" rows="4" name="principalProposalJustification" id="principalProposalJustification"></textarea>
+		        </div>
+		      </div> <!-- form-group -->
 		      
 		      <div class="form-group">
 		        <label class="control-label col-md-3" for="programId"></label>
@@ -90,6 +93,21 @@
 	$(function(){
 
 		$('#procNewProgramForm').submit(submitPrincipalResponse);
+		$('#principalResponse').on("change", evaluateResponse);
+
+		function evaluateResponse(){
+			var $response = $('#principalResponse').val();
+			switch($response){
+				case 'No':
+					$('#principalMoreInfoGrp').hide();
+					$('#principalProposalJustificationGrp').show();
+					break;
+				default:
+					$('#principalMoreInfoGrp').hide();
+					$('#principalProposalJustificationGrp').hide()
+					break;
+			}
+		}
 
 		function submitPrincipalResponse(){
 			$('.load-bar').show();
