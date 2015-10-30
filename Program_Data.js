@@ -25,11 +25,3 @@ function processPrincipalProposalResponse(formObj){
 	html.program = getProgramInfo(formObj.programId);
 	return html.evaluate().setSandboxMode(HtmlService.SandboxMode.IFRAME).getContent();
 }
-
-
-
-function createProgramAnnouncement(programId){
-	var test;
-
-	prg = getProgramInfo(programId);
-}
