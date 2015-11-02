@@ -122,8 +122,7 @@ function getProgramsByRole(){
   });
  
   programs = JSON.stringify(roles.map(function(e){
-    var query = 'SELECT * FROM Programs p INNER JOIN Program_Data d on p.program_id = d.program_id WHERE (d.queue = "'
-      + e + '") AND (p.school = "' + school + '")';
+    var query = 'SELECT * FROM Programs p INNER JOIN Program_Data d on p.program_id = d.program_id WHERE (d.queue = "' + e + '") AND (p.school = "' + school + '")';
     return NVGAS.getSqlRecords(dbString, query);
   }).reduce(function(e){
     return e;
@@ -156,5 +155,15 @@ function loadNewProposalForm(program_id){
   html = HtmlService.createTemplateFromFile('proposal_approval_form');
   html.program = getProgramInfo(program_id);
   html.approver = USER.username;
+  return html.evaluate().setSandboxMode(HtmlService.SandboxMode.IFRAME).getContent();
+}
+
+
+
+function loadEditProposalForm(programId){
+  var test;
+
+  html = HtmlService.createTemplateFromFile('edit_proposal_modal');
+  html.proposal = getProgramInfo(programId);
   return html.evaluate().setSandboxMode(HtmlService.SandboxMode.IFRAME).getContent();
 }

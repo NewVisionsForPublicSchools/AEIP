@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h3 class="modal-title text-nvBlue" id="myModalLabel"><?= proposal.program_id ?></h3>
+	      </div>
+	      <div class="modal-body">
+	        <form class="form-horizontal" method="get" onsubmit="return false" id="editPropForm">
+    
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="progName">Program Name</label>
+		        <div class="col-md-6">
+		            <input type="text" class="form-control col-md-6" name="progName"  id="progName" required="true" value="<?= proposal.program_name ?>">
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="postDate">Post Date</label>
+		        <div class="col-md-4">
+		            <input type="date" class="form-control col-md-6" name="postDate"  id="postDate" required="true" value="<?= proposal.post_date ?>">
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="appDeadline">Application Deadline</label>
+		        <div class="col-md-4">
+		            <input type="date" class="form-control col-md-6" name="appDeadline"  id="appDeadline" required="true" value="<?= proposal.application_deadline ?>">
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="posNum">Number of Positions</label>
+		        <div class="col-md-3">
+		            <input type="number" min="1" class="form-control col-md-6" name="posNum"  id="posNum" required="true" value="<?= proposal.number_of_positions ?>">
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="progType">Program Type</label>
+		        <div class="col-md-3">
+		            <select class="form-control col-md-6" name="progType"  id="progType" required="true" value="<?= proposal.program_type ?>">
+		              <option>Academic</option>
+		              <option>Club</option>
+		              <option>Regents Exam Prep</option>
+		              <option>Sports/Recreation</option>
+		              <option>Team</option>
+		            </select>
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="progTime">Program Time</label>
+		        <div class="col-md-3">
+		            <select multiple class="form-control col-md-6" name="progTime"  id="progTime" required="true" value="<?= proposal.program_time ?>">
+		              <option>After School</option>
+		              <option>Before School</option>
+		              <option>Saturday</option>
+		            </select>
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="progTri">Trimester Activity</label>
+		        <div class="col-md-3">
+		            <select multiple class="form-control col-md-6" name="progTri"  id="progTri" required="true" value="<?= proposal.trimester ?>">
+		              <option>T1</option>
+		              <option>T2</option>
+		              <option>T3</option>
+		              <option>Summer</option>
+		            </select>
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="progStart">Program Start Date</label>
+		        <div class="col-md-4">
+		            <input type="date" class="form-control col-md-6" name="progStart"  id="progStart" required="true" value="<?= proposal.start_date ?>">
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="progEnd">Program End Date</label>
+		        <div class="col-md-4">
+		            <input type="date" class="form-control col-md-6" name="progEnd"  id="progEnd" required="true" value="<?= proposal.end_date ?>">
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="progSched">Program Schedule</label>
+		        <div class="col-md-6">
+		            <input type="text" class="form-control col-md-6" name="progSched"  id="progSched" required="true" value="<?= proposal.program_schedule ?>">
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="estHrs">Total Estimated Hours Per Trimester</label>
+		        <div class="col-md-4">
+		            <input type="number" min="0" class="form-control col-md-6" name="estHrs" id="estHrs" required="true" value="<?= proposal.hours_per_trimester ?>">
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="eligibility">Eligibility Requirements</label>
+		        <div class="col-md-6">
+		            <textarea class="form-control col-md-6" name="eligibility" id="eligibility" required="true" value="<?= proposal.eligibility_requirements ?>"></textarea>
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="addReqs">Additional Requirements</label>
+		        <div class="col-md-4">
+		            <select multiple class="form-control col-md-6" name="addReqs"  id="addReqs" value="<?= proposal.additional_requirements ?>">
+		              <option>CPR Training</option>
+		              <option>Concussion Training</option>
+		            </select>
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="criteria">Selection Criteria</label>
+		        <div class="col-md-6">
+		            <textarea class="form-control col-md-6" name="criteria" id="criteria" required="true" value="<?= proposal.selection_criteria ?>"></textarea>
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="goals">Goals & Outcomes</label>
+		        <div class="col-md-6">
+		            <textarea class="form-control col-md-6" name="goals" id="goals" required="true" value="<?= proposal.goals_outcomes ?>"></textarea>
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="duties">General Duties & Responsibilities</label>
+		        <div class="col-md-6">
+		            <textarea class="form-control col-md-6" name="duties" id="duties" required="true" value="<?= proposal.general_duties ?>"></textarea>
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		    </form>
+	      </div> <!-- modal body -->
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary">Save changes</button>
+	      </div>
+	    </div>
+	  </div>
+  </body>
+
+  <script>
+	$(function(){
+
+		$('#editPropForm').ready(setValues);
+
+		function setValues(){
+			$('#progType option').filter(function(){
+				return $(this).attr('value') == "Club";
+			}).attr('selected', true);
+		}
+
+	});
+  </script>
+</html>
+
+
