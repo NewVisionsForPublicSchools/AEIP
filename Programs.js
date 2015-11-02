@@ -4,7 +4,7 @@ var USER = JSON.parse(PropertiesService.getUserProperties().getProperty('current
 
 
 function processProposalSubmission(formObj){
-  var test, programId, userObj, user, school, newQueue, programQuery, programDataQuery, querryArray, newId, html;
+  var test, programId, userObj, user, school, newQueue, programQuery, programDataQuery, queryArray, newId, html;
 
   queryArray = [];
   programId = 'AEIP' + PropertiesService.getScriptProperties().getProperty('nextProgramId').toString();
@@ -85,8 +85,7 @@ function sendProcessProposalSubmissionAlert(program_id){
 function getProgramInfo(program_id){
   var test, query, program;
   
-  query = 'SELECT * FROM Programs p INNER JOIN Program_Data d ON p.program_id = d.program_id WHERE p.program_id = "'
-        + program_id + '"';
+  query = 'SELECT * FROM Programs p INNER JOIN Program_Data d ON p.program_id = d.program_id WHERE p.program_id = "' + program_id + '"';
   program = NVGAS.getSqlRecords(dbString, query)[0];
   return program;
 }
@@ -165,5 +164,34 @@ function loadEditProposalForm(programId){
 
   html = HtmlService.createTemplateFromFile('edit_proposal_modal');
   html.proposal = getProgramInfo(programId);
+  html.program = JSON.stringify(html.proposal);
   return html.evaluate().setSandboxMode(HtmlService.SandboxMode.IFRAME).getContent();
+}
+
+
+
+function processProposalEdits(formObj){
+  var test, queryArray, programId, editQuery, timeStampQuery, html;
+
+  queryArray = [];
+  programId = JSON.parse(formObj.program).program_id;
+  editQuery = 'UPDATE Programs SET program_name = "' + formObj.eProgName + '", post_date = "' + formObj.ePostDate + '", application_deadline = "' + formObj.eAppDeadline + '", number_of_positions = "' + formObj.ePosNum + '", program_type = "' + formObj.eProgType + '", program_time = "' + formObj.eProgTime + '", trimester = "' + formObj.eProgTri + '", start_date = "' + formObj.eProgStart + '", end_date = "' + formObj.eProgEnd + '", program_schedule = "' + formObj.eProgSched + '", hours_per_trimester = "' + formObj.eEstHrs + '", eligibility_requirements = "' + formObj.eEligibility + '", additional_requirements = "' + formObj.eAddReqs + '", selection_criteria = "' + formObj.eCriteria + '", goals_outcomes = "' + formObj.eGoals + '", general_duties = "' + formObj.eDuties + '" WHERE program_id = "' + programId + '"';
+  timeStampQuery = 'UPDATE Program_Data SET program_edit = "' + new Date() + '", queue = "P" WHERE program_id = "' + programId + '"';
+
+  queryArray.push(editQuery);
+  queryArray.push(timeStampQuery);
+
+  NVGAS.updateSqlRecord(dbString, queryArray);
+
+  sendProposalEditNotification(programId);
+
+  html = HtmlService.createTemplateFromFile('edit_proposal_confirmation');
+  html.proposal = getProgramInfo(programId);
+  return html.evaluate().setSandboxMode(HtmlService.SandboxMode.IFRAME).getContent();
+}
+
+
+
+function sendProposalEditNotification(programId){
+  var test;
 }

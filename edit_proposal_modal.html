@@ -14,37 +14,37 @@
 	        <form class="form-horizontal" method="get" onsubmit="return false" id="editPropForm">
     
 		      <div class="form-group">
-		        <label class="control-label col-md-3" for="progName">Program Name</label>
+		        <label class="control-label col-md-3" for="eProgName">Program Name</label>
 		        <div class="col-md-6">
-		            <input type="text" class="form-control col-md-6" name="progName"  id="progName" required="true" value="<?= proposal.program_name ?>">
+		            <input type="text" class="form-control col-md-6" name="eProgName"  id="eProgName" required="true" value="<?= proposal.program_name ?>">
 		        </div>
 		      </div> <!-- form-gorup -->
 		      
 		      <div class="form-group">
-		        <label class="control-label col-md-3" for="postDate">Post Date</label>
+		        <label class="control-label col-md-3" for="ePostDate">Post Date</label>
 		        <div class="col-md-4">
-		            <input type="date" class="form-control col-md-6" name="postDate"  id="postDate" required="true" value="<?= proposal.post_date ?>">
+		            <input type="date" class="form-control col-md-6" name="ePostDate"  id="ePostDate" required="true" value="<?= proposal.post_date ?>">
 		        </div>
 		      </div> <!-- form-gorup -->
 		      
 		      <div class="form-group">
-		        <label class="control-label col-md-3" for="appDeadline">Application Deadline</label>
+		        <label class="control-label col-md-3" for="eAppDeadline">Application Deadline</label>
 		        <div class="col-md-4">
-		            <input type="date" class="form-control col-md-6" name="appDeadline"  id="appDeadline" required="true" value="<?= proposal.application_deadline ?>">
+		            <input type="date" class="form-control col-md-6" name="eAppDeadline"  id="eAppDeadline" required="true" value="<?= proposal.application_deadline ?>">
 		        </div>
 		      </div> <!-- form-gorup -->
 		      
 		      <div class="form-group">
-		        <label class="control-label col-md-3" for="posNum">Number of Positions</label>
+		        <label class="control-label col-md-3" for="ePosNum">Number of Positions</label>
 		        <div class="col-md-3">
-		            <input type="number" min="1" class="form-control col-md-6" name="posNum"  id="posNum" required="true" value="<?= proposal.number_of_positions ?>">
+		            <input type="number" min="1" class="form-control col-md-6" name="ePosNum"  id="ePosNum" required="true" value="<?= proposal.number_of_positions ?>">
 		        </div>
 		      </div> <!-- form-gorup -->
 		      
 		      <div class="form-group">
-		        <label class="control-label col-md-3" for="progType">Program Type</label>
+		        <label class="control-label col-md-3" for="eProgType">Program Type</label>
 		        <div class="col-md-3">
-		            <select class="form-control col-md-6" name="progType"  id="progType" required="true" value="<?= proposal.program_type ?>">
+		            <select class="form-control col-md-6" name="eProgType"  id="eProgType" required="true" value="<?= proposal.program_type ?>">
 		              <option>Academic</option>
 		              <option>Club</option>
 		              <option>Regents Exam Prep</option>
@@ -55,9 +55,9 @@
 		      </div> <!-- form-gorup -->
 		      
 		      <div class="form-group">
-		        <label class="control-label col-md-3" for="progTime">Program Time</label>
+		        <label class="control-label col-md-3" for="eProgTime">Program Time</label>
 		        <div class="col-md-3">
-		            <select multiple class="form-control col-md-6" name="progTime"  id="progTime" required="true" value="<?= proposal.program_time ?>">
+		            <select multiple class="form-control col-md-6" name="eProgTime"  id="eProgTime" required="true" value="<?= proposal.program_time ?>">
 		              <option>After School</option>
 		              <option>Before School</option>
 		              <option>Saturday</option>
@@ -66,9 +66,9 @@
 		      </div> <!-- form-gorup -->
 		      
 		      <div class="form-group">
-		        <label class="control-label col-md-3" for="progTri">Trimester Activity</label>
+		        <label class="control-label col-md-3" for="eProgTri">Trimester Activity</label>
 		        <div class="col-md-3">
-		            <select multiple class="form-control col-md-6" name="progTri"  id="progTri" required="true" value="<?= proposal.trimester ?>">
+		            <select multiple class="form-control col-md-6" name="eProgTri"  id="eProgTri" required="true" value="<?= proposal.trimester ?>">
 		              <option>T1</option>
 		              <option>T2</option>
 		              <option>T3</option>
@@ -78,44 +78,44 @@
 		      </div> <!-- form-gorup -->
 		      
 		      <div class="form-group">
-		        <label class="control-label col-md-3" for="progStart">Program Start Date</label>
+		        <label class="control-label col-md-3" for="eProgStart">Program Start Date</label>
 		        <div class="col-md-4">
-		            <input type="date" class="form-control col-md-6" name="progStart"  id="progStart" required="true" value="<?= proposal.start_date ?>">
+		            <input type="date" class="form-control col-md-6" name="eProgStart"  id="eProgStart" required="true" value="<?= proposal.start_date ?>">
 		        </div>
 		      </div> <!-- form-gorup -->
 		      
 		      <div class="form-group">
-		        <label class="control-label col-md-3" for="progEnd">Program End Date</label>
+		        <label class="control-label col-md-3" for="eProgEnd">Program End Date</label>
 		        <div class="col-md-4">
-		            <input type="date" class="form-control col-md-6" name="progEnd"  id="progEnd" required="true" value="<?= proposal.end_date ?>">
+		            <input type="date" class="form-control col-md-6" name="eProgEnd"  id="eProgEnd" required="true" value="<?= proposal.end_date ?>">
 		        </div>
 		      </div> <!-- form-gorup -->
 		      
 		      <div class="form-group">
-		        <label class="control-label col-md-3" for="progSched">Program Schedule</label>
+		        <label class="control-label col-md-3" for="eProgSched">Program Schedule</label>
 		        <div class="col-md-6">
-		            <input type="text" class="form-control col-md-6" name="progSched"  id="progSched" required="true" value="<?= proposal.program_schedule ?>">
+		            <input type="text" class="form-control col-md-6" name="eProgSched"  id="eProgSched" required="true" value="<?= proposal.program_schedule ?>">
 		        </div>
 		      </div> <!-- form-gorup -->
 		      
 		      <div class="form-group">
-		        <label class="control-label col-md-3" for="estHrs">Total Estimated Hours Per Trimester</label>
+		        <label class="control-label col-md-3" for="eEstHrs">Total Estimated Hours Per Trimester</label>
 		        <div class="col-md-4">
-		            <input type="number" min="0" class="form-control col-md-6" name="estHrs" id="estHrs" required="true" value="<?= proposal.hours_per_trimester ?>">
+		            <input type="number" min="0" class="form-control col-md-6" name="eEstHrs" id="eEstHrs" required="true" value="<?= proposal.hours_per_trimester ?>">
 		        </div>
 		      </div> <!-- form-gorup -->
 		      
 		      <div class="form-group">
-		        <label class="control-label col-md-3" for="eligibility">Eligibility Requirements</label>
+		        <label class="control-label col-md-3" for="eEligibility">Eligibility Requirements</label>
 		        <div class="col-md-6">
-		            <textarea class="form-control col-md-6" name="eligibility" id="eligibility" required="true" value="<?= proposal.eligibility_requirements ?>"></textarea>
+		            <textarea class="form-control col-md-6" name="eEligibility" id="eEligibility" required="true" value="<?= proposal.eligibility_requirements ?>"></textarea>
 		        </div>
 		      </div> <!-- form-gorup -->
 		      
 		      <div class="form-group">
-		        <label class="control-label col-md-3" for="addReqs">Additional Requirements</label>
+		        <label class="control-label col-md-3" for="eAddReqs">Additional Requirements</label>
 		        <div class="col-md-4">
-		            <select multiple class="form-control col-md-6" name="addReqs"  id="addReqs" value="<?= proposal.additional_requirements ?>">
+		            <select multiple class="form-control col-md-6" name="eAddReqs"  id="eAddReqs" value="<?= proposal.additional_requirements ?>">
 		              <option>CPR Training</option>
 		              <option>Concussion Training</option>
 		            </select>
@@ -123,23 +123,30 @@
 		      </div> <!-- form-gorup -->
 		      
 		      <div class="form-group">
-		        <label class="control-label col-md-3" for="criteria">Selection Criteria</label>
+		        <label class="control-label col-md-3" for="eCriteria">Selection Criteria</label>
 		        <div class="col-md-6">
-		            <textarea class="form-control col-md-6" name="criteria" id="criteria" required="true" value="<?= proposal.selection_criteria ?>"></textarea>
+		            <textarea class="form-control col-md-6" name="eCriteria" id="eCriteria" required="true" value="<?= proposal.selection_criteria ?>"></textarea>
 		        </div>
 		      </div> <!-- form-gorup -->
 		      
 		      <div class="form-group">
-		        <label class="control-label col-md-3" for="goals">Goals & Outcomes</label>
+		        <label class="control-label col-md-3" for="eGoals">Goals & Outcomes</label>
 		        <div class="col-md-6">
-		            <textarea class="form-control col-md-6" name="goals" id="goals" required="true" value="<?= proposal.goals_outcomes ?>"></textarea>
+		            <textarea class="form-control col-md-6" name="eGoals" id="eGoals" required="true" value="<?= proposal.goals_outcomes ?>"></textarea>
 		        </div>
 		      </div> <!-- form-gorup -->
 		      
 		      <div class="form-group">
-		        <label class="control-label col-md-3" for="duties">General Duties & Responsibilities</label>
+		        <label class="control-label col-md-3" for="eDuties">General Duties & Responsibilities</label>
 		        <div class="col-md-6">
-		            <textarea class="form-control col-md-6" name="duties" id="duties" required="true" value="<?= proposal.general_duties ?>"></textarea>
+		            <textarea class="form-control col-md-6" name="eDuties" id="eDuties" required="true" value="<?= proposal.general_duties ?>"></textarea>
+		        </div>
+		      </div> <!-- form-gorup -->
+
+		      <div class="form-group" style="display:none">
+		        <label class="control-label col-md-3" for="eProgId">Program</label>
+		        <div class="col-md-6">
+		            <input type="text" class="form-control col-md-6" name="eProgId"  id="eProgId" required="true" value="<?= program ?>">
 		        </div>
 		      </div> <!-- form-gorup -->
 		      
@@ -147,7 +154,7 @@
 	      </div> <!-- modal body -->
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary">Save changes</button>
+	        <button type="button" class="btn btn-primary" id="editPropSaveBtn">Save changes</button>
 	      </div>
 	    </div>
 	  </div>
@@ -157,15 +164,33 @@
 	$(function(){
 
 		$('#editPropForm').ready(setValues);
+		$('#editPropForm').submit(submitProposalEdits);
 
 		function setValues(){
-			$('#progType option').filter(function(){
-				return $(this).attr('value') == "Club";
-			}).attr('selected', true);
+			$proposal = JSON.parse($('#eProgId').val());
+			$('#eProgType').val($proposal.program_type);
+			$('#eProgTime').val($proposal.program_time.split(','));
+			$('#eEligibility').val($proposal.eligibility_requirements);
+			$('#eAddReqs').val($proposal.additional_requirements.split(','));
+			$('#eCriteria').val($proposal.selection_criteria);
+			$('#eGoals').val($proposal.goals_outcomes);
+			$('#eDuties').val($proposal.general_duties);
+			$('#eProgTri').val($proposal.trimester.split(','));
+		}
+
+		function submitProposalEdits(){
+			$('.load-bar').show();
+		    var $inputs = $('#editPropForm :input');
+		    
+		    var values = {};
+		    $inputs.each(function() {
+		        values[this.name] = $(this).val();
+		    });
+		    
+		    google.script.run.withSuccessHandler(displayEditPropConfirmation).processProposalEdits(values);
 		}
 
 	});
   </script>
 </html>
-
 
