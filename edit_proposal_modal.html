@@ -10,7 +10,7 @@
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	        <h3 class="modal-title text-nvBlue" id="myModalLabel"><?= proposal.program_id ?></h3>
 	      </div>
-	      <div class="modal-body">
+	      <div class="modal-body" id="editPropModalBody">
 	        <form class="form-horizontal" method="get" onsubmit="return false" id="editPropForm">
     
 		      <div class="form-group">
@@ -144,16 +144,17 @@
 		      </div> <!-- form-gorup -->
 
 		      <div class="form-group" style="display:none">
-		        <label class="control-label col-md-3" for="eProgId">Program</label>
+		        <label class="control-label col-md-3" for="eProgram">Program</label>
 		        <div class="col-md-6">
-		            <input type="text" class="form-control col-md-6" name="eProgId"  id="eProgId" required="true" value="<?= program ?>">
+		            <input type="text" class="form-control col-md-6" name="eProgram"  id="eProgram" required="true" value="<?= program ?>">
 		        </div>
 		      </div> <!-- form-gorup -->
 		      
 		    </form>
 	      </div> <!-- modal body -->
+	      <div class="modal-body" id="editPropConfirmation" sytle="display:none"></div> <!-- modal body confirmation -->
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal" id="editPropCloseBtn">Close</button>
 	        <button type="button" class="btn btn-primary" id="editPropSaveBtn">Save changes</button>
 	      </div>
 	    </div>
@@ -164,10 +165,13 @@
 	$(function(){
 
 		$('#editPropForm').ready(setValues);
-		$('#editPropForm').submit(submitProposalEdits);
+		$('#editPropSaveBtn').click(submitProposalEdits);
+		$('#editPropCloseBtn').click(function(){
+			$('#approvalBtn').click();
+		});
 
 		function setValues(){
-			$proposal = JSON.parse($('#eProgId').val());
+			$proposal = JSON.parse($('#eProgram').val());
 			$('#eProgType').val($proposal.program_type);
 			$('#eProgTime').val($proposal.program_time.split(','));
 			$('#eEligibility').val($proposal.eligibility_requirements);
@@ -181,13 +185,29 @@
 		function submitProposalEdits(){
 			$('.load-bar').show();
 		    var $inputs = $('#editPropForm :input');
-		    
 		    var values = {};
 		    $inputs.each(function() {
 		        values[this.name] = $(this).val();
 		    });
-		    
 		    google.script.run.withSuccessHandler(displayEditPropConfirmation).processProposalEdits(values);
+		    $('#approvalBtn').click();
+		}
+
+		function displayEditPropConfirmation(resultHtml){
+			// Get output div
+			var $output = $('#editPropConfirmation');
+
+			// Set html of output div
+			$output.html(resultHtml);
+
+			// Show output
+			$('.modal-body').hide();
+			$('#editPropSaveBtn').hide();
+			$output.show();
+
+			// Hide load-bar
+			$('.load-bar').hide();
+
 		}
 
 	});

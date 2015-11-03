@@ -103,7 +103,6 @@ function getApprovalActionItems(){
   html = HtmlService.createTemplateFromFile('action_items');
   html.newClass = nr.length > 0 ? 'nvRed' : 'nvGreen';
   html.nr = nr.length;
-  html.role = queue[0].queue;
 
   return html.evaluate().setSandboxMode(HtmlService.SandboxMode.IFRAME).getContent();
 }
@@ -113,7 +112,7 @@ function getApprovalActionItems(){
 function getProgramsByRole(){
   var test, username, userQuery, roles, programs;
 
-  username = USER.username;
+  username = USER.username || 'approver1@charter.newvisions.org';
   school = USER.school;
   userQuery = 'SELECT roles FROM Users WHERE username = "' + username + '"';
   roles = NVGAS.getSqlRecords(dbString, userQuery).map(function(e){
@@ -174,7 +173,7 @@ function processProposalEdits(formObj){
   var test, queryArray, programId, editQuery, timeStampQuery, html;
 
   queryArray = [];
-  programId = JSON.parse(formObj.program).program_id;
+  programId = JSON.parse(formObj.eProgram).program_id;
   editQuery = 'UPDATE Programs SET program_name = "' + formObj.eProgName + '", post_date = "' + formObj.ePostDate + '", application_deadline = "' + formObj.eAppDeadline + '", number_of_positions = "' + formObj.ePosNum + '", program_type = "' + formObj.eProgType + '", program_time = "' + formObj.eProgTime + '", trimester = "' + formObj.eProgTri + '", start_date = "' + formObj.eProgStart + '", end_date = "' + formObj.eProgEnd + '", program_schedule = "' + formObj.eProgSched + '", hours_per_trimester = "' + formObj.eEstHrs + '", eligibility_requirements = "' + formObj.eEligibility + '", additional_requirements = "' + formObj.eAddReqs + '", selection_criteria = "' + formObj.eCriteria + '", goals_outcomes = "' + formObj.eGoals + '", general_duties = "' + formObj.eDuties + '" WHERE program_id = "' + programId + '"';
   timeStampQuery = 'UPDATE Program_Data SET program_edit = "' + new Date() + '", queue = "P" WHERE program_id = "' + programId + '"';
 
@@ -186,12 +185,33 @@ function processProposalEdits(formObj){
   sendProposalEditNotification(programId);
 
   html = HtmlService.createTemplateFromFile('edit_proposal_confirmation');
-  html.proposal = getProgramInfo(programId);
+  html.data = getProgramInfo(programId);
   return html.evaluate().setSandboxMode(HtmlService.SandboxMode.IFRAME).getContent();
 }
 
 
 
 function sendProposalEditNotification(programId){
-  var test;
+  var test, proposal, recipientQuery, recipients, subject, html, template, query, queryArray;
+
+  // Get program information
+  proposal = getProgramInfo(programId);
+
+  // Email notification of proposal edit
+  recipientQuery = 'SELECT username FROM Users WHERE (roles LIKE "%P%" OR roles like "%DSO%") AND school = "' + proposal.school + '"';
+  recipients = NVGAS.getSqlRecords(dbString, recipientQuery).map(function(e){
+    return e.username;
+  }).join();
+  subject = 'DO NOT REPLY: AEIP Proposal Edited | ' + proposal.program_id;
+  html = HtmlService.createTemplateFromFile('edited_proposal_email');
+  html.proposal = proposal;
+  html.url = PropertiesService.getScriptProperties().getProperty('leadershipUrl');
+  template = html.evaluate().getContent();
+  GmailApp.sendEmail(recipients, subject,"",{htmlBody: template});
+
+  // Update Program_Data table
+  queryArray = [];
+  query = 'UPDATE Program_Data SET proposal_edit_email = "' + new Date() + '" WHERE program_id = "' + programId + '"';
+  queryArray.push(query);
+  NVGAS.updateSqlRecord(dbString, queryArray);
 }

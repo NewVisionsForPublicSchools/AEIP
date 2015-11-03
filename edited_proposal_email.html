@@ -1,0 +1,46 @@
+<div align="center" id="myDiv" style="background-color:#F5F5F5; padding: 100px;">
+	<table id="myTable" width="70%" border="0" cellspacing="0" cellpadding="0" style="background-color:#ffffff; padding: 50px;">
+		<tr><td align="center">
+			<img src="https://www.googledrive.com/host/0B-y5PxJT5zp1b0EwZHo0SkU0ZmM/NVCHS_Logo_Small.png">
+		</td></tr>
+		<tr><td align="center">
+			<!-- padding --><div style="height: 60px; line-height: 60px; font-size: 10px;"> </div>
+			<div style="line-height: 44px;">
+				<font face="ASerifa, Rockwell, sans-serif" size="5" color="#006CB7" style="font-size: 34px;">
+				<span style="font-family: Serifa, Rockwell, sans-serif; font-size: 34px; color: #006CB7;">
+					AEIP
+				</span></font>
+			</div>
+			<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>
+		</td></tr>
+		<tr><td align="center">
+			<div style="line-height: 24px;">
+				<font face="Serifa 45 Light, Calibri, sans-serif" size="4" color="#57697e" style="font-size: 15px;">
+				<span style="font-family: Serifa 45 Light, Calibri, sans-serif; font-size: 15px; color: #57697e;">
+					The AEIP proposal for <b><?= proposal.program_name ?></b> has been edited:<br><br>
+					<table class="data" style="font-family:Calibri; font-size:15px; color:#57697e;">
+					    <tr><td>Name:</td><td style="font-weight:bold;"><?= proposal.program_name ?></td></tr>
+					    <tr><td>Post Date:</td><td style="font-weight:bold;"><?= proposal.post_date ?></td></tr>
+					    <tr><td>Application Deadline:</td><td style="font-weight:bold;"><?= proposal.application_deadline ?></td></tr>
+					    <tr><td>Number of Positions:</td><td style="font-weight:bold;"><?= proposal.number_of_positions?></td></tr>
+					    <tr><td>Trimester:</td><td style="font-weight:bold;"><?= proposal.trimester?></td></tr>
+					    <tr><td>Start Date:</td><td style="font-weight:bold;"><?= proposal.start_date ?></td></tr>
+					    <tr><td>End Date:</td><td style="font-weight:bold;"><?= proposal.end_date ?></td></tr>
+					</table>
+					<br><br>
+					<b>ACTION REQUIRED:</b><br>Please log into the <em>AEIP Portal</em> and navigate<br> to the <em>Process Requests</em> page to process this proposal.
+				</span></font>
+			</div>
+			<!-- padding --><div style="height: 40px; line-height: 40px; font-size: 10px;"> </div>
+		</td></tr>
+		<tr><td align="center">
+			<div style="line-height: 24px;">
+				<a href="<?= url ?>" class="myButton" style="background-color:#D71920; -moz-border-radius:3px;
+                -webkit-border-radius:3px; border-radius:3px; display:inline-block; cursor:pointer; color:#ffffff;
+                font-family:Calibri; font-family:Calibri; font-size:15px; padding:9px 23px; text-decoration:none;">
+                AEIP Portal</a>
+			</div>
+			<!-- padding --><div style="height: 60px; line-height: 60px; font-size: 10px;"> </div>
+		</td></tr>
+	</table>		
+</div>
