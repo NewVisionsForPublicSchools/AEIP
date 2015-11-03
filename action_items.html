@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <div id="tiles" class="col-md-10 col-md-offset-4">
+	  <div class="tile-row text-center row">
+	    <div class=<?= 'tile-item item bg-' + newClass ?>>
+	      <br>
+	        <div id="nrBtn" type="button" class="tile well btn btn-default text-center">
+	          <h1 id="newReqNum" value=<?= nr ?> class=<?= 'text-' + newClass ?>><?= nr ?></h1>
+	          <h5 class="text-primary text-center"><b><u>Proposals</u></b></h5>
+	        </div>
+	    </div>
+	  </div>
+	</div>
+  </body>
+
+
+
+  <script>
+  $(function(){
+	  
+    $('#nrBtn').click(showNewPrograms);
+    
+    function showNewPrograms(){
+      google.script.run.withSuccessHandler(displayNewPrograms).loadNewPrograms();
+    }
+    
+    function displayNewPrograms(resultHtml){
+      var $output = $('#newPrograms');
+      $output.html(resultHtml);
+      $('.programData').hide();
+      $output.show();
+    }
+	    
+  });
+  </script>
+
+</html>           
+
+

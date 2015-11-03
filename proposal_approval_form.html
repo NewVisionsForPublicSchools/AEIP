@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <div class="">
+	  <h2 class="text-nvGray">AEIP Proposal</h2>
+	  <br/>
+	  <div class=""> 
+	    <form class="form-horizontal" method="get" onsubmit="return false" id="procNewProgramForm">
+	      
+	      <div class="row well col-md-4 col-md-offset-4">
+	        <h4><b>Program Number: </b><?= program.program_id ?></h4>
+	        <h4><b>Program Name: </b><?= program.program_name ?></h4>
+	        <h4><b>Posting Date: </b><?= program.post_date ?></h4>
+	        <h4><b>Application Deadline: </b><?= program.application_deadline ?></h4>
+	        <h4><b>Number of Facilitators: </b><?= program.number_of_positions ?></h4>
+	        <h4><b>Program Type: </b><?= program.program_type ?></h4>
+	        <h4><b>Time of Day: </b><?= program.program_time ?></h4>
+	        <h4><b>Trimester(s): </b><?= program.trimester ?></h4>
+	        <h4><b>Start Date: </b><?= program.start_date ?></h4>
+	        <h4><b>End Date: </b><?= program.end_date ?></h4>
+	        <h4><b>Program Schedule: </b><?= program.program_schedule ?></h4>
+	        <h4><b>Hours Per Trimester: </b><?= program.hours_per_trimester ?></h4>
+	        <h4><b>Eligibility Requirements: </b><?= program.eligibility_requirements ?></h4>
+	        <h4><b>Additional Requirements: </b><?= program.additional_requirements == "null" ? "None" : program.additional_requirements ?></h4>
+	        <h4><b>Selection Criteria: </b><?= program.selection_criteria ?></h4>
+	        <h4><b>Goals/Outcomes </b><?= program.goals_outcomes ?></h4>
+	        <h4><b>General Duties: </b><?= program.general_duties ?></h4>
+	      </div>
+	      <br/>
+	      
+	      <div class="col-md-8 col-md-offset-2 pull-center">
+	      
+		      <div class="form-group">
+		        <label class="control-label col-md-4" for="principalResponse">Do you approve of this program?</label>
+		        <div class="col-md-3">
+		            <select class="form-control col-md-6" name="principalResponse" id="principalResponse" required="true">
+		                <option>Yes</option>
+		                <option>No</option>
+		                <option>More Information Needed</option>
+		            </select>
+		        </div>
+		      </div> <!-- form-group -->
+		      
+		      <div class="form-group" id="principalMoreInfoGrp" style="display:none">
+		        <label class="control-label col-md-3" for="principalMoreInfoReason">What additional information is required?</label>
+		        <div class="col-md-8">
+		            <textarea class="form-control col-md-8" rows="4" name="principalMoreInfoReason" id="principalMoreInfoReason"></textarea>
+		        </div>
+		      </div> <!-- form-group -->
+
+		      <div class="form-group" id="principalProposalJustificationGrp" style="display:none">
+		        <label class="control-label col-md-3" for="principalProposalJustification">What is your reason for rejection?</label>
+		        <div class="col-md-8">
+		            <textarea class="form-control col-md-8" rows="4" name="principalProposalJustification" id="principalProposalJustification"></textarea>
+		        </div>
+		      </div> <!-- form-group -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="programId"></label>
+		        <input type="text" class="form-control col-md-6" name="programId" id="programId" style="display:none"
+		               value=<?= program.program_id ?>>
+		      </div>
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="proposalApprover"></label>
+		        <input type="text" class="form-control col-md-6" name="proposalApprover" id="proposalApprover" style="display:none"
+		               value=<?= approver ?>>
+		      </div>
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="proposalQueue"></label>
+		        <input type="text" class="form-control col-md-6" name="proposalQueue" id="proposalQueue" style="display:none"
+		               value=<?= program.queue ?>>
+		      </div>
+		      
+		      <div class="pull-center">
+		        <button class="btn btn-default" id="principalProposalCancelBtn">Cancel</button>
+		        <button class="btn btn-primary" type="submit" id="principalProposalSubBtn">Submit</button> 
+		      </div>
+	      </div> <!-- div -->
+	      
+	    </form>
+	  </div>
+	</div>
+  </body>
+
+
+
+  <script>
+	$(function(){
+
+		$('#procNewProgramForm').submit(submitPrincipalResponse);
+		$('#principalResponse').on("change", evaluateResponse);
+
+		function evaluateResponse(){
+			var $response = $('#principalResponse').val();
+			switch($response){
+				case 'No':
+					$('#principalMoreInfoGrp').hide();
+					$('#principalProposalJustificationGrp').show();
+					break;
+				case 'More Information Needed':
+					$('#principalProposalJustificationGrp').hide();
+					$('#principalMoreInfoGrp').show();
+					break;
+				default:
+					$('#principalMoreInfoGrp').hide();
+					$('#principalProposalJustificationGrp').hide()
+					break;
+			}
+		}
+
+		function submitPrincipalResponse(){
+			$('.load-bar').show();
+			var $inputs = $('#procNewProgramForm :input');
+			var values = {};
+			$inputs.each(function(){
+				values[this.name] = $(this).val();
+			});
+
+			google.script.run.withSuccessHandler(displayPrincipalResponseConfirmation).processPrincipalProposalResponse(values);
+		}
+
+		function displayPrincipalResponseConfirmation(resultHtml){
+			var $output = $('#confirmation');
+			$output.html(resultHtml);
+			$('.page').hide();
+			$output.show();
+			$('.load-bar').hide();
+		}
+
+	});
+  </script>
+
+
+
+
+</html>
+
+

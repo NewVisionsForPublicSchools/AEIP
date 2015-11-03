@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+    <script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
+  
+    <link data-require="bootstrap-css@*" data-semver="3.3.5" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    
+    <?!= include('style'); ?>
+    
+  </head>
+  
+  
+  
+  <body>
+  
+    <!-- navigation -->
+    <div><?!= include('navbar'); ?></div>
+    
+    <!-- Load Bar -->
+    <div class="load-bar" style="display:none;">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+    
+    <div class="container-fluid">
+        
+        <br/>
+        <div class="row text-center">
+          <h1 class="text-nvBlue">A<small>cademic</small> E<small>nrichment</small> I<small>ntervention</small> P<small>rogram</small></h1>
+        </div>
+            
+        <!-- Home page -->
+        <div class="page" id="index">
+          <div>
+            <!-- <div class="row text-center">
+              <h1 class="text-nvBlue">A<small>cademic</small> E<small>nrichment</small> I<small>ntervention</small> P<small>rogram</small></h1>
+            </div> -->
+            <div class="row vertical-center" id="homeBtns" style="display:none">
+              <a class="btn btn-lg btn-primary" type="button" id="subProgramBtn">Submit AEIP</a>
+              <button class="btn btn-lg btn-primary btn-validated" type="button" id="approvalBtn" disabled="disabled">
+                Approvals
+              </button>
+            </div> <!-- home btns -->
+            <div id="usrValid" class="row vertical-center">
+             <form id="userForm" class="form-inline" onsubmit="return false">
+               <div class="form-group">
+                <label class="control-label col-md-3" for="usrEmail"></label>
+                <div class="">
+                  <div class="input-group">
+                    <span class="input-group-addon">@</span>
+                    <input type="email" class="form-control col-md-6" name="usrEmail"  id="usrEmail"
+                    placeholder="Your New Visions email">
+                  </div> <!-- input-group -->
+                </div>
+              </div> <!-- form-gorup -->
+              <button class="btn btn-primary" id="usrEmailBtn">Set Email</button>
+             </form>  
+            </div>
+          </div>
+        </div>
+        
+        <!-- Submit Program Form -->
+        <div class="page" id="subProgramFormPage" style="display:none"><?!= include('submit_program_form'); ?></div>
+        
+        <!-- Process Trip Requests -->
+        <div class="page" id="approvalsPage" style="display:none"><?!= include('approvals_page'); ?></div>
+        
+        <!-- confirmation page -->
+        <div class="page" id="confirmation" style="display:none"></div>
+        
+    </div>
+  
+  </body>
+</html>
+
+
+
+<script>
+$(function(){
+
+  $(document).ready(loadIndexActions);
+  $('#subProgramBtn').click(loadProgramForm);
+  $('#approvalBtn').click(loadApprovalPage);
+  $('#usrEmailBtn').click(getUserEmail);
+  
+  function getUserEmail(){
+    $('.load-bar').show();
+    var $email = $('#usrEmail').val().trim();
+    google.script.run.withSuccessHandler(showButtons).setCurrentUser($email);
+  }
+  
+  function showButtons(){
+    $('.load-bar').show();
+    google.script.run.withSuccessHandler(verifyUser).validateUser();
+    $('#usrValid').hide();
+    $('#homeBtns').show();
+    $('#reqBtn').prop('disabled', false);
+    $('.load-bar').hide();
+  }
+  
+  function loadIndexActions(){
+    $('.load-bar').show();
+    google.script.run.withSuccessHandler(usernameCheck).getCurrentUser();
+  }
+  
+  function usernameCheck(answer){
+    if(answer == true){
+      showButtons();
+    }
+    else{
+      $('#homeBtns').hide();
+      $('#usrValid').show();
+    }
+    $('.load-bar').hide();
+  }
+  
+  function loadProgramForm(resultHtml){
+    $('.page').hide();
+    $('#subProgramFormPage').show();
+    /* Change the following later */
+//    $('#trpSubConf').hide(); 
+//    $('#trpFormSub').show();
+    $('#propForm').trigger("reset");
+  }
+  
+  function loadApprovalPage(){
+    $('.load-bar').show();
+    google.script.run.withSuccessHandler(updateActionItems).getApprovalActionItems();
+    $('.page').hide();
+    $('.proposalForm').hide();
+    $('#actionItems').show();
+    $('#approvalsPage').show();
+  }
+  
+  function verifyUser(answer){
+    if(answer == true){
+      $('.btn-validated').prop('disabled', false);
+    }
+    $('.load-bar').hide();
+  }
+  
+  function updateActionItems(resultHtml){
+    var $output = $('#actionItems');
+    $output.html(resultHtml);
+    $('.load-bar').hide();
+  }
+
+});
+
+</script>

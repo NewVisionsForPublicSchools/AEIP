@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h3 class="modal-title text-nvBlue" id="myModalLabel"><?= proposal.program_id ?></h3>
+	      </div>
+	      <div class="modal-body" id="editPropModalBody">
+	        <form class="form-horizontal" method="get" onsubmit="return false" id="editPropForm">
+    
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="eProgName">Program Name</label>
+		        <div class="col-md-6">
+		            <input type="text" class="form-control col-md-6" name="eProgName"  id="eProgName" required="true" value="<?= proposal.program_name ?>">
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="ePostDate">Post Date</label>
+		        <div class="col-md-4">
+		            <input type="date" class="form-control col-md-6" name="ePostDate"  id="ePostDate" required="true" value="<?= proposal.post_date ?>">
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="eAppDeadline">Application Deadline</label>
+		        <div class="col-md-4">
+		            <input type="date" class="form-control col-md-6" name="eAppDeadline"  id="eAppDeadline" required="true" value="<?= proposal.application_deadline ?>">
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="ePosNum">Number of Positions</label>
+		        <div class="col-md-3">
+		            <input type="number" min="1" class="form-control col-md-6" name="ePosNum"  id="ePosNum" required="true" value="<?= proposal.number_of_positions ?>">
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="eProgType">Program Type</label>
+		        <div class="col-md-3">
+		            <select class="form-control col-md-6" name="eProgType"  id="eProgType" required="true" value="<?= proposal.program_type ?>">
+		              <option>Academic</option>
+		              <option>Club</option>
+		              <option>Regents Exam Prep</option>
+		              <option>Sports/Recreation</option>
+		              <option>Team</option>
+		            </select>
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="eProgTime">Program Time</label>
+		        <div class="col-md-3">
+		            <select multiple class="form-control col-md-6" name="eProgTime"  id="eProgTime" required="true" value="<?= proposal.program_time ?>">
+		              <option>After School</option>
+		              <option>Before School</option>
+		              <option>Saturday</option>
+		            </select>
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="eProgTri">Trimester Activity</label>
+		        <div class="col-md-3">
+		            <select multiple class="form-control col-md-6" name="eProgTri"  id="eProgTri" required="true" value="<?= proposal.trimester ?>">
+		              <option>T1</option>
+		              <option>T2</option>
+		              <option>T3</option>
+		              <option>Summer</option>
+		            </select>
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="eProgStart">Program Start Date</label>
+		        <div class="col-md-4">
+		            <input type="date" class="form-control col-md-6" name="eProgStart"  id="eProgStart" required="true" value="<?= proposal.start_date ?>">
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="eProgEnd">Program End Date</label>
+		        <div class="col-md-4">
+		            <input type="date" class="form-control col-md-6" name="eProgEnd"  id="eProgEnd" required="true" value="<?= proposal.end_date ?>">
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="eProgSched">Program Schedule</label>
+		        <div class="col-md-6">
+		            <input type="text" class="form-control col-md-6" name="eProgSched"  id="eProgSched" required="true" value="<?= proposal.program_schedule ?>">
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="eEstHrs">Total Estimated Hours Per Trimester</label>
+		        <div class="col-md-4">
+		            <input type="number" min="0" class="form-control col-md-6" name="eEstHrs" id="eEstHrs" required="true" value="<?= proposal.hours_per_trimester ?>">
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="eEligibility">Eligibility Requirements</label>
+		        <div class="col-md-6">
+		            <textarea class="form-control col-md-6" name="eEligibility" id="eEligibility" required="true" value="<?= proposal.eligibility_requirements ?>"></textarea>
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="eAddReqs">Additional Requirements</label>
+		        <div class="col-md-4">
+		            <select multiple class="form-control col-md-6" name="eAddReqs"  id="eAddReqs" value="<?= proposal.additional_requirements ?>">
+		              <option>CPR Training</option>
+		              <option>Concussion Training</option>
+		            </select>
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="eCriteria">Selection Criteria</label>
+		        <div class="col-md-6">
+		            <textarea class="form-control col-md-6" name="eCriteria" id="eCriteria" required="true" value="<?= proposal.selection_criteria ?>"></textarea>
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="eGoals">Goals & Outcomes</label>
+		        <div class="col-md-6">
+		            <textarea class="form-control col-md-6" name="eGoals" id="eGoals" required="true" value="<?= proposal.goals_outcomes ?>"></textarea>
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		      <div class="form-group">
+		        <label class="control-label col-md-3" for="eDuties">General Duties & Responsibilities</label>
+		        <div class="col-md-6">
+		            <textarea class="form-control col-md-6" name="eDuties" id="eDuties" required="true" value="<?= proposal.general_duties ?>"></textarea>
+		        </div>
+		      </div> <!-- form-gorup -->
+
+		      <div class="form-group" style="display:none">
+		        <label class="control-label col-md-3" for="eProgram">Program</label>
+		        <div class="col-md-6">
+		            <input type="text" class="form-control col-md-6" name="eProgram"  id="eProgram" required="true" value="<?= program ?>">
+		        </div>
+		      </div> <!-- form-gorup -->
+		      
+		    </form>
+	      </div> <!-- modal body -->
+	      <div class="modal-body" id="editPropConfirmation" sytle="display:none"></div> <!-- modal body confirmation -->
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal" id="editPropCloseBtn">Close</button>
+	        <button type="button" class="btn btn-primary" id="editPropSaveBtn">Save changes</button>
+	      </div>
+	    </div>
+	  </div>
+  </body>
+
+  <script>
+	$(function(){
+
+		$('#editPropForm').ready(setValues);
+		$('#editPropSaveBtn').click(submitProposalEdits);
+		$('#editPropCloseBtn').click(function(){
+			$('#approvalBtn').click();
+		});
+
+		function setValues(){
+			$proposal = JSON.parse($('#eProgram').val());
+			$('#eProgType').val($proposal.program_type);
+			$('#eProgTime').val($proposal.program_time.split(','));
+			$('#eEligibility').val($proposal.eligibility_requirements);
+			$('#eAddReqs').val($proposal.additional_requirements.split(','));
+			$('#eCriteria').val($proposal.selection_criteria);
+			$('#eGoals').val($proposal.goals_outcomes);
+			$('#eDuties').val($proposal.general_duties);
+			$('#eProgTri').val($proposal.trimester.split(','));
+		}
+
+		function submitProposalEdits(){
+			$('.load-bar').show();
+		    var $inputs = $('#editPropForm :input');
+		    var values = {};
+		    $inputs.each(function() {
+		        values[this.name] = $(this).val();
+		    });
+		    google.script.run.withSuccessHandler(displayEditPropConfirmation).processProposalEdits(values);
+		    $('#approvalBtn').click();
+		}
+
+		function displayEditPropConfirmation(resultHtml){
+			// Get output div
+			var $output = $('#editPropConfirmation');
+
+			// Set html of output div
+			$output.html(resultHtml);
+
+			// Show output
+			$('.modal-body').hide();
+			$('#editPropSaveBtn').hide();
+			$output.show();
+
+			// Hide load-bar
+			$('.load-bar').hide();
+
+		}
+
+	});
+  </script>
+</html>
+

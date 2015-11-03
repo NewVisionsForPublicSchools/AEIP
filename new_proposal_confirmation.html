@@ -1,0 +1,29 @@
+<div class="text-center">
+
+  <h1 class="text-primary">Proposal Submitted</h1>
+  <p>Your AEIP proposal <em><b><?= data.progName ?></b></em> has been successfully submitted! You should recieve an email confirmation shortly.</p>
+  
+  <div class="pull-center row">
+    <button class="btn btn-danger" type="button" id="homeBtn2">Home</button>
+    <button class="btn btn-primary" id="reqBtn2">Submit Another Request</button> 
+  </div>
+  
+</div>
+
+
+
+<script>
+
+  $(function(){
+  
+    $('#reqBtn2').click(function(){
+      $('#subProgramBtn').trigger("click");
+    });
+    
+    $('#homeBtn2').click(function(){
+      $('#homeBtn').trigger("click");
+    });
+    
+  });
+
+</script>

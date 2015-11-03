@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <div>
+	  <h3 class="pull-left text-nvGray">Proposals To Be Processed</h3>
+	  <table id="newReqTbl" class="table table-striped">
+	    <tr>      
+	      <th class="bg-primary text-center">Program Name</th>
+	      <th class="bg-primary text-center">Posting Date</th>
+	      <th class="bg-primary text-center">Application Deadline</th>
+	      <th class="bg-primary text-center">Trimester(s)</th>
+	      <th class="bg-primary text-center">Number of Facilitators</th>
+	      <th class="bg-primary text-center">Start Date</th>
+	      <th class="bg-primary text-center">End Date</th>
+	      <th class="bg-primary text-center propApproval">Hours Per Trimester</th>
+	      <th class="bg-primary text-center propApproval">Proposal</th>
+	      <th class="bg-primary text-center moreInfo">Notes</th>
+	      <th class="bg-primary text-center moreInfo">Edit</th>
+	    </tr> <!-- close header row -->
+	    
+	    <? for(var i=0;i<data.length;i++){ ?>
+	      <tr>
+	        <td><b><?= data[i].program_name ?></b></td>
+	        <td><?= data[i].post_date ?></td>
+	        <td><?= data[i].application_deadline ?></td>
+	        <td><?= data[i].trimester ?></td>
+	        <td><?= data[i].number_of_positions ?></td>
+	        <td><?= data[i].start_date ?></td>
+	        <td><?= data[i].end_date ?></td>
+	        <td class="propApproval"><?= data[i].hours_per_trimester ?></td>
+	        <td class="propApproval"><button class="btn btn-xs btn-primary newProgramLink" value=<?= data[i].program_id ?>>
+	          <?= data[i].program_id ?>
+	        </button></td>
+	        <td class="moreInfo"><?= data[i].principal_proposal_more_info ?></td>
+	        <td class="moreInfo"><button class="btn btn-xs btn-primary editProposalLink" data-toggle="modal" data-target="#editProposalModal" value=<?= data[i].program_id ?>>
+	          <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+	        </button></td>
+	      </tr>
+	    <? } ?>
+	  </table>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="editProposalModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+  </body>
+
+
+
+  <script>
+	  $(function(){
+	    
+	    $('.newProgramLink').click(goToLink);
+	    $('.editProposalLink').click(editProposal);
+	    $('#newReqTbl').ready(function(){
+	    	google.script.run.withSuccessHandler(filterColumns).getUserRole();
+	    });
+	    
+	    function goToLink(){
+		  $('.load-bar').show();
+	      var $proposal = $(this).attr("value");
+	      google.script.run.withSuccessHandler(displayNewProposalForm).loadNewProposalForm($proposal);
+	    }
+
+	    function editProposal(){
+	    	$('.load-bar').show();
+	    	var $proposal = $(this).attr("value");
+	    	google.script.run.withSuccessHandler(displayEditModal).loadEditProposalForm($proposal);
+	    }
+	    
+	    function displayNewProposalForm(resultHtml){
+	      var $output = $('#newProposalForm');
+	      $output.html(resultHtml);
+	      $('.programData').hide();
+	      $('.propsalForm').hide();
+	      $('#actionItems').hide();
+	      $output.show();
+	      $('.load-bar').hide();
+	    }
+
+	    function displayEditModal(resultHtml){
+	    	var $output = $('#editProposalModal');
+	    	$output.html(resultHtml);
+	    	$('.load-bar').hide();
+	    }
+
+	    function filterColumns(userRole){
+	    	// Filter columns based on role
+	    	console.log(userRole)
+	    	switch(userRole){
+	    		case "DSO":
+		    		$('.moreInfo').show();
+		    		$('.propApproval').hide();
+		    		break;
+	    		case "P":
+			    	$('.propApproval').show();
+			    	$('.moreInfo').hide();
+			    	break;
+		    	default:
+			    	$('.moreInfo').hide();
+			    	$('.propApproval').hide();
+			    	break;	
+	    	}
+	    }
+	   
+	  });
+  </script>
+
+</html>
+
+

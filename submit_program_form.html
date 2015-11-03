@@ -1,0 +1,241 @@
+<div class="text-center">
+  <h2 class="text-nvGray">Program Proposal Form</h2>
+  <p>Use this NVCHS AEIP Proposal form to submit a formal AEIP request. All proposals must be approved by the DSO and Principal.</p>
+  <br/>
+  <div>
+
+    <form class="form-horizontal" method="get" onsubmit="return false" id="propForm">
+    
+      <div class="form-group">
+        <label class="control-label col-md-3" for="progName"></label>
+        <div class="col-md-6">
+          <div class="input-group">
+            <span class="input-group-addon">Program Name</span>
+            <input type="text" class="form-control col-md-6" name="progName"  id="progName" required="true"
+            placeholder="Please indicate title of program">
+          </div> <!-- input-group -->
+        </div>
+      </div> <!-- form-gorup -->
+      
+      <div class="form-group">
+        <label class="control-label col-md-3" for="postDate"></label>
+        <div class="col-md-2">
+          <div class="input-group">
+            <span class="input-group-addon">Post Date</span>
+            <input type="date" class="form-control col-md-6" name="postDate"  id="postDate" required="true">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+          </div> <!-- input-group -->
+        </div>
+      </div> <!-- form-gorup -->
+      
+      <div class="form-group">
+        <label class="control-label col-md-3" for="appDeadline"></label>
+        <div class="col-md-2">
+          <div class="input-group">
+            <span class="input-group-addon">Application Deadline</span>
+            <input type="date" class="form-control col-md-6" name="appDeadline"  id="appDeadline" required="true">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+          </div> <!-- input-group -->
+        </div>
+      </div> <!-- form-gorup -->
+      
+      <div class="form-group">
+        <label class="control-label col-md-3" for="posNum"></label>
+        <div class="col-md-3">
+          <div class="input-group" data-toggle="popover" data-placement="right" data-trigger="hover"
+            title="Enter 1 if there is only one employee leading this program. Multiple numbers would indicate multiple staff each with the same minimum expectations. It does NOT indicate position and payment is split or shared between two or more staff.">
+            <span class="input-group-addon">Number of Positions</span>
+            <input type="number" min="1" class="form-control col-md-6" name="posNum"  id="posNum" required="true">
+          </div> <!-- input-group -->
+        </div>
+      </div> <!-- form-gorup -->
+      
+      <div class="form-group">
+        <label class="control-label col-md-3" for="progType"></label>
+        <div class="col-md-3">
+          <div class="input-group">
+            <span class="input-group-addon">Program Type</span>
+            <select class="form-control col-md-6" name="progType"  id="progType" required="true">
+              <option>Academic</option>
+              <option>Club</option>
+              <option>Regents Exam Prep</option>
+              <option>Sports/Recreation</option>
+              <option>Team</option>
+            </select>
+          </div> <!-- input-group -->
+        </div>
+      </div> <!-- form-gorup -->
+      
+      <div class="form-group">
+        <label class="control-label col-md-3" for="progTime"></label>
+        <div class="col-md-3">
+          <div class="input-group" data-toggle="popover" data-placement="right" data-trigger="hover" title="Select all that apply">
+            <span class="input-group-addon">Program Time</span>
+            <select multiple class="form-control col-md-6" name="progTime"  id="progTime" required="true">
+              <option>After School</option>
+              <option>Before School</option>
+              <option>Saturday</option>
+            </select>
+          </div> <!-- input-group -->
+        </div>
+      </div> <!-- form-gorup -->
+      
+      <div class="form-group">
+        <label class="control-label col-md-3" for="progTri"></label>
+        <div class="col-md-3">
+          <div class="input-group" data-toggle="popover" data-placement="right" data-trigger="hover"
+          title="Indicate in which trimesters this program will run (more than one can be selected).  If a single program is starting mid trimester and finishes in the middle of the following trimester you should only check the box for the later trimester. For example, Journalism Club commences during Trimester 1 on November 10, 2014 and finishes in Trimester 2 on February 27, 2015 for a single program posting.  In such case only Trimester 2 should be checked. If instead it started on October 6, 2014 and finished on March 13, 2015 then selecting both Triemster 1 and 2 for 2 program postings would be more appropriate.">
+            <span class="input-group-addon">Trimester Activity</span>
+            <select multiple class="form-control col-md-6" name="progTri"  id="progTri" required="true">
+              <option>T1</option>
+              <option>T2</option>
+              <option>T3</option>
+              <option>Summer</option>
+            </select>
+          </div> <!-- input-group -->
+        </div>
+      </div> <!-- form-gorup -->
+      
+      <div class="form-group">
+        <label class="control-label col-md-3" for="progStart"></label>
+        <div class="col-md-2">
+          <div class="input-group">
+            <span class="input-group-addon">Program Start Date</span>
+            <input type="date" class="form-control col-md-6" name="progStart"  id="progStart" required="true">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+          </div> <!-- input-group -->
+        </div>
+      </div> <!-- form-gorup -->
+      
+      <div class="form-group">
+        <label class="control-label col-md-3" for="progEnd"></label>
+        <div class="col-md-2">
+          <div class="input-group">
+            <span class="input-group-addon">Program End Date</span>
+            <input type="date" class="form-control col-md-6" name="progEnd"  id="progEnd" required="true">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+          </div> <!-- input-group -->
+        </div>
+      </div> <!-- form-gorup -->
+      
+      <div class="form-group">
+        <label class="control-label col-md-3" for="progSched"></label>
+        <div class="col-md-6">
+          <div class="input-group" data-toggle="popover" data-placement="right" data-trigger="hover"
+          title="Schedule should include days and hours planned.">
+            <span class="input-group-addon">Program Schedule</span>
+            <input type="text" class="form-control col-md-6" name="progSched"  id="progSched" required="true"
+            placeholder="Please indicate program schedule">
+          </div> <!-- input-group -->
+        </div>
+      </div> <!-- form-gorup -->
+      
+      <div class="form-group">
+        <label class="control-label col-md-3" for="estHrs"></label>
+        <div class="col-md-4">
+          <div class="input-group">
+            <span class="input-group-addon">Total Estimated Hours Per Trimester</span>
+            <input type="number" min="0" class="form-control col-md-6" name="estHrs"  id="estHrs" required="true">
+          </div> <!-- input-group -->
+        </div>
+      </div> <!-- form-gorup -->
+      
+      <div class="form-group">
+        <label class="control-label col-md-3" for="eligibility"></label>
+        <div class="col-md-6">
+          <div class="input-group" data-toggle="popover" data-placement="right" data-trigger="hover"
+          title="1. Possession of appropriate licensure, certification or degree in relevant content area 2. Employee in good standing (not currently on a Performance Improvement Plan) 3. For coaching sports activities must meet NYS coaching requirements including possession of valid CPR certification and concussion training certificate. Please see below link for more information:   http://www.p12.nysed.gov/ciai/pe/documents/coaching-guidelines.pdf          *Note: Managers and Non-Exempt staff are not eligible for receiving payment though may lead activities if qualified and approved.">
+            <span class="input-group-addon">Eligibility Requirements</span>
+            <textarea class="form-control col-md-6" name="eligibility" id="eligibility" required="true"></textarea>
+          </div> <!-- input-group -->
+        </div>
+      </div> <!-- form-gorup -->
+      
+      <div class="form-group">
+        <label class="control-label col-md-3" for="addReqs"></label>
+        <div class="col-md-4">
+          <div class="input-group" data-toggle="popover" data-placement="right" data-trigger="hover"
+          title="Please indicate any additional reuqirements that may be needed for someone to be selected for this program">
+            <span class="input-group-addon">Additional Requirements</span>
+            <select multiple class="form-control col-md-6" name="addReqs"  id="addReqs">
+              <option>CPR Training</option>
+              <option>Concussion Training</option>
+            </select>
+          </div> <!-- input-group -->
+        </div>
+      </div> <!-- form-gorup -->
+      
+      <div class="form-group">
+        <label class="control-label col-md-3" for="criteria"></label>
+        <div class="col-md-6">
+          <div class="input-group" data-toggle="popover" data-placement="right" data-trigger="hover"
+          title="1. Effective prior performance 2. Satisfactory record of attendance and punctuality 3. Relevant prior experience leading after-school programs of similar instructional content 4. Positive and effective general attitude and behavior towards youth, parents, staff, management, and other key constituents  Please indicate anything in addition to these 4 requirements in the text box provided below:">
+            <span class="input-group-addon">Selection Criteria</span>
+            <textarea class="form-control col-md-6" name="criteria" id="criteria" required="true"></textarea>
+          </div> <!-- input-group -->
+        </div>
+      </div> <!-- form-gorup -->
+      
+      <div class="form-group">
+        <label class="control-label col-md-3" for="goals"></label>
+        <div class="col-md-6">
+          <div class="input-group" data-toggle="popover" data-placement="right" data-trigger="hover"
+          title="As an example, this club will provide a structured environment where students who may need additional academic support in specific content areas and assistance. This club is staffed by subject specific teachers. Goals include achieving better mental focus, time management, and academic skills, completing all homework assignments with a high level of quality and mastering specific content concepts.">
+            <span class="input-group-addon">Goals & Outcomes</span>
+            <textarea class="form-control col-md-6" name="goals" id="goals" required="true"></textarea>
+          </div> <!-- input-group -->
+        </div>
+      </div> <!-- form-gorup -->
+      
+      <div class="form-group">
+        <label class="control-label col-md-3" for="duties"></label>
+        <div class="col-md-6">
+          <div class="input-group" data-toggle="popover" data-placement="right" data-trigger="hover"
+          title="1. Take accurate attendance of all students attending the club/program meetings 2. Ensure the safety of all students at all times during the club/program meetings 3. Supervise all students throughout the club/program meeting times 4. Collect and store all documentation related to the club including permission slips, attendance forms 5. Ensure that all students are able to participate and accomplish the goals of the club 6. Teach and assess the skills that are needed to accomplish the goals of the club 7. Create and submit the trimester report to the DSO for approval to ensure payment.">
+            <span class="input-group-addon">General Duties & Responsibilities</span>
+            <textarea class="form-control col-md-6" name="duties" id="duties" required="true"></textarea>
+          </div> <!-- input-group -->
+        </div>
+      </div> <!-- form-gorup -->
+      
+      <div class="pull-center">
+        <button class="btn btn-default" id="newProgCancelBtn">Cancel</button>
+        <button class="btn btn-primary" type="submit" id="newProgSubBtn">Submit</button> 
+      </div>
+      <br/><br/><br/><br/>
+        
+    </form>
+  </div>
+</div>
+
+
+
+<script>
+$(function () {
+
+  $('[data-toggle="popover"]').popover();
+  $('#propForm').submit(submitProposal);
+  
+  function submitProposal(){
+    $('.load-bar').show();
+    var $inputs = $('#propForm :input');
+    
+    var values = {};
+    $inputs.each(function() {
+        values[this.name] = $(this).val();
+    });
+    
+    google.script.run.withSuccessHandler(displayPropConfirmation).processProposalSubmission(values);
+  }
+  
+  function displayPropConfirmation(resultHtml){
+    var $output = $('#confirmation');
+    $output.html(resultHtml);
+    $('.page').hide();
+    $output.show();
+    $('.load-bar').hide();
+  }
+  
+});
+</script>
+ 
