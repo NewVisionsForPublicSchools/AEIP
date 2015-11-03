@@ -1,6 +1,7 @@
 var dbString = PropertiesService.getScriptProperties().getProperty('DBSTRING');
 var userColumns = 'username,roles';
 var staffListId = PropertiesService.getScriptProperties().getProperty('STAFFLISTID')
+var USER = JSON.parse(PropertiesService.getUserProperties().getProperty('currentUser'));
 
 
 function getCurrentUser(){
@@ -121,4 +122,10 @@ function getStaffListInfo(username){
     return NVGAS.getSqlRecords(dbString, [sQuery])[0];
   }
   return false;
+}
+
+
+
+function getUserRole(){
+  return USER.roles;
 }
