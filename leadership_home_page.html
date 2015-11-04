@@ -16,6 +16,34 @@
 	    </div>
 	</div>
   </body>
+
+  <script>
+	$(function(){
+
+		$('#subProgramBtn').click(loadProgramForm);
+		$('#approvalBtn').click(loadApprovalPage);
+
+		function loadProgramForm(resultHtml){
+		    $('.page').hide();
+		    $('#subProgramFormPage').show();
+		    $('#propForm').trigger("reset");
+		}
+		  
+	   function loadApprovalPage(){
+		    $('.load-bar').show();
+		    google.script.run.withSuccessHandler(updateActionItems).getApprovalActionItems();
+		    $('.page').hide();
+		    $('.proposalForm').hide();
+		    $('#actionItems').show();
+		    $('#approvalsPage').show();
+	    }
+
+	    function updateActionItems(resultHtml){
+		    var $output = $('#actionItems');
+		    $output.html(resultHtml);
+		    $('.load-bar').hide();
+		}
+
+	});
+  </script>
 </html>
-
-
