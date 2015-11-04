@@ -112,7 +112,7 @@ function getApprovalActionItems(){
 function getProgramsByRole(){
   var test, username, userQuery, roles, programs;
 
-  username = USER.username || 'approver1@charter.newvisions.org';
+  username = USER.username;
   school = USER.school;
   userQuery = 'SELECT roles FROM Users WHERE username = "' + username + '"';
   roles = NVGAS.getSqlRecords(dbString, userQuery).map(function(e){
