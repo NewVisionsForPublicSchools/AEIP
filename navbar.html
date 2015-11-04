@@ -30,7 +30,10 @@
 $(function(){
 
   $('#programBtn').click(loadProgramForm);
-  $('#homeBtn').click(loadHome);
+  $('#homeBtn').click(function(){
+    $('.load-bar').show();
+    google.script.run.withSuccessHandler(loadHome).getUserRole();
+  });
   $('#procBtn').click(loadProc);
   
   function loadProgramForm(){
@@ -39,15 +42,36 @@ $(function(){
 //    $('#resetReq').click();
   }
   
-  function loadHome(){
+  function loadHome(userRole){
     $('.page').hide();
-    $('#index').show();
+    $('#usrValid').hide();
+
+    // Display portal based on role
+    switch(userRole){
+      case "DSO":
+        $('#leadershipPortal').show();
+        $('.leadershipBtn').show();
+        $('.staffBtn').hide();
+        break;
+      case "P":
+        $('#leadershipPortal').show();
+        $('.leadershipBtn').show();
+        $('.staffBtn').hide();
+        break;
+      default:
+        $('#staffPortal').show();
+        $('.staffBtn').show();
+        $('.leadershipBtn').hide();
+        break;
+    }
+
+    $('.load-bar').hide();
   }
   
   function loadProc(){
     $('#approvalBtn').click();
   }
-  
+
 });
 
 </script>

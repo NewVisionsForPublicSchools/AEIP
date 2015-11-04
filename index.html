@@ -39,12 +39,6 @@
         <!-- Home page -->
         <div class="page" id="index">
           <div>
-            <div class="row vertical-center" id="homeBtns" style="display:none">
-              <a class="btn btn-lg btn-primary" type="button" id="subProgramBtn">Submit AEIP</a>
-              <button class="btn btn-lg btn-primary btn-validated" type="button" id="approvalBtn" disabled="disabled">
-                Approvals
-              </button>
-            </div> 
             <div id="usrValid" class="row vertical-center">
              <form id="userForm" class="form-inline" onsubmit="return false">
                <div class="form-group">
@@ -100,15 +94,6 @@ $(function(){
     google.script.run.withSuccessHandler(showPortal).getUserRole();
   }
   
-  // function showButtons(){
-  //   $('.load-bar').show();
-  //   google.script.run.withSuccessHandler(verifyUser).validateUser();
-  //   $('#usrValid').hide();
-  //   $('#homeBtns').show();
-  //   $('#reqBtn').prop('disabled', false);
-  //   $('.load-bar').hide();
-  // }
-  
   function loadIndexActions(){
     $('.load-bar').show();
     google.script.run.withSuccessHandler(usernameCheck).getCurrentUser();
@@ -117,10 +102,8 @@ $(function(){
   function usernameCheck(answer){
     if(answer == true){
       google.script.run.withSuccessHandler(showPortal).getUserRole();
-      // showButtons();
     }
     else{
-      $('#homeBtns').hide();
       $('#usrValid').show();
     }
     $('.load-bar').hide();
