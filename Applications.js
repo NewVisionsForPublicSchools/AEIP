@@ -46,3 +46,28 @@ function getOpenApplications(){
 	// Return open applications
 	return openApplications;
 }
+
+
+
+function processApplication(formObj){
+	// Add application to db
+	setApplicationInfo(formObj);
+
+	// Send application submission confirmation email
+	sendApplicationSubmissionConfirmation(formObj);
+
+	// Return submission confirmation
+
+}
+
+
+
+function setApplicationInfo(formObj){
+	// Get application Id
+
+	// Insert info into Applications table
+
+	// Update Application_Data table
+
+	// Update application Id script property
+}
