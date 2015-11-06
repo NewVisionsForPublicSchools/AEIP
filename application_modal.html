@@ -123,7 +123,7 @@
   <script>
 	$(function(){
 
-		$('#appForm').click(submitApplication);
+		$('#submitAppBtn').click(submitApplication);
 
 		function submitApplication(){
 			// Show load bar
@@ -138,6 +138,22 @@
 
 			// Send values to server
 			google.script.run.withSuccessHandler(displayApplicationConfirmation).processApplication(values);
+		}
+
+		function displayApplicationConfirmation(resultHtml){
+			// Get ouput div
+			var $output = $('#appSubmissionConfirmation');
+
+			// Set html of output div
+			$output.html(resultHtml);
+
+			// Show output
+			$('.modal-body').hide();
+			$('#submitAppBtn').hide();
+			$output.show();
+
+			// Hide load-bar
+			$('.load-bar').hide();
 		}
 
 
