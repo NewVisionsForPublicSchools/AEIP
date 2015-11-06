@@ -35,11 +35,11 @@ function loadApplicationForm(programId){
 function getOpenApplications(){
 	var test, query, approvedPrograms, openApplications;
 
-	// Query database for approved programs
-	query = 'SELECT * FROM Programs p INNER JOIN Program_Data d ON p.program_id = d.program_id WHERE d.status = "Approved"';
+	// Query database for programs with open application windows
+	query = 'SELECT * FROM Programs p INNER JOIN Program_Data d ON p.program_id = d.program_id WHERE d.application_window = "Open"';
 	approvedPrograms = NVGAS.getSqlRecords(dbString, query);
 
-	// Filter query results for programs by school and with open application periods
+	// Filter query results for programs by school
 	openApplications = approvedPrograms.filter(function(e){
 		return e.school == USER.school;
 	});
@@ -217,4 +217,30 @@ function sendApplicationToDso(applicationId){
 	// Update Application_Data table
 	updateQuery = 'UPDATE Application_Data SET submission_notification = "' + new Date() + '" WHERE application_id = "' + applicationId + '"';
 	NVGAS.updateSqlRecord(dbString, [updateQuery]);
+}
+
+
+
+function setOpenApplicationWindow(){
+	var test, approvedQuery, approvedPrograms, today, openWindows, queryArray;
+
+	// Get approved programs
+	approvedQuery = 'SELECT * FROM Programs p INNER JOIN Program_Data d ON p.program_id = d.program_id WHERE d.status = "Approved"';
+	approvedPrograms = NVGAS.getSqlRecords(dbString, approvedQuery);
+
+	// Filter approved programs for open windows
+	today = new Date().getTime();
+	openWindows = approvedPrograms.filter(function(e){
+		e.post_date = new Date(e.post_date.split('-')[0],e.post_date.split('-')[1] - 1,e.post_date.split('-')[2]).getTime();
+		e.application_deadline = new Date(e.application_deadline.split('-')[0],e.application_deadline.split('-')[1]-1,e.application_deadline.split('-')[2]).getTime();
+		return (today >= e.post_date) && (today <= e.application_deadline) && (e.application_window != "Closed");
+	});
+
+	// Update Program_Data table
+	queryArray = [];
+	openWindows.forEach(function(e){
+		updateQuery = 'UPDATE Program_Data SET application_window = "Open" WHERE program_id = "' + e.program_id + '"';
+		queryArray.push(updateQuery);
+	});
+	NVGAS.updateSqlRecord(dbString, queryArray);
 }

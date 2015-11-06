@@ -12,16 +12,8 @@ function processProposalSubmission(formObj){
   user = userObj.username;
   school = userObj.school;
   newQueue = userObj.queue ? null : 'P';
-  programQuery = 'INSERT INTO Programs (program_id, program_name, school, post_date, '
-        + 'application_deadline, number_of_positions, program_type, program_time, trimester, start_date, end_date, '
-        + 'program_schedule, hours_per_trimester, eligibility_requirements, additional_requirements, selection_criteria, '
-        + 'goals_outcomes, general_duties) VALUES("' + programId + '", "' + formObj.progName + '", "' + school + '", "'
-        + formObj.postDate + '", "' + formObj.appDeadline + '", "' + formObj.posNum + '", "'
-        + formObj.progType + '", "' + formObj.progTime + '", "' + formObj.progTri + '", "' + formObj.progStart + '", "'
-        + formObj.progEnd + '", "' + formObj.progSched + '", "' + formObj.estHrs + '", "' + formObj.eligibility + '", "'
-        + formObj.addReqs + '", "' + formObj.criteria + '", "' + formObj.goals + '", "' + formObj.duties + '")';
-  programDataQuery = 'INSERT INTO Program_Data (program_id, submitted_by, date_submitted, queue, status) ' 
-        + 'VALUES("' + programId + '", "' + user + '", "' + new Date() + '", "'  + newQueue + '", "New")';
+  programQuery = 'INSERT INTO Programs (program_id, program_name, school, post_date, ' + 'application_deadline, number_of_positions, program_type, program_time, trimester, start_date, end_date, ' + 'program_schedule, hours_per_trimester, eligibility_requirements, additional_requirements, selection_criteria, ' + 'goals_outcomes, general_duties) VALUES("' + programId + '", "' + formObj.progName + '", "' + school + '", "' + formObj.postDate + '", "' + formObj.appDeadline + '", "' + formObj.posNum + '", "' + formObj.progType + '", "' + formObj.progTime + '", "' + formObj.progTri + '", "' + formObj.progStart + '", "' + formObj.progEnd + '", "' + formObj.progSched + '", "' + formObj.estHrs + '", "' + formObj.eligibility + '", "' + formObj.addReqs + '", "' + formObj.criteria + '", "' + formObj.goals + '", "' + formObj.duties + '")';
+  programDataQuery = 'INSERT INTO Program_Data (program_id, submitted_by, date_submitted, queue, status) ' + 'VALUES("' + programId + '", "' + user + '", "' + new Date() + '", "'  + newQueue + '", "New")';
   
   queryArray.push(programQuery);
   queryArray.push(programDataQuery);
@@ -74,10 +66,12 @@ function sendProcessProposalSubmissionAlert(program_id){
   html.url = PropertiesService.getScriptProperties().getProperty('leadershipUrl');
   template = html.evaluate().getContent();
   
-  GmailApp.sendEmail(recipients, subject,"",{htmlBody: template});
+  if(recipients){
+    GmailApp.sendEmail(recipients, subject,"",{htmlBody: template});
   
-  alertQuery = 'UPDATE Program_Data SET proposal_submission_principal = "' + new Date() + '" WHERE program_id = "' + program_id + '"';
-  NVGAS.updateSqlRecord(dbString, [alertQuery]);
+    alertQuery = 'UPDATE Program_Data SET proposal_submission_principal = "' + new Date() + '" WHERE program_id = "' + program_id + '"';
+    NVGAS.updateSqlRecord(dbString, [alertQuery]);
+  }
 }
 
 
