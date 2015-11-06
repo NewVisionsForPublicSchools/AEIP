@@ -1,5 +1,6 @@
 var dbString = PropertiesService.getScriptProperties().getProperty('DBSTRING');
 var USER = JSON.parse(PropertiesService.getUserProperties().getProperty('currentUser'));
+var APPLICATIONTEMPLATEID = PropertiesService.getScriptProperties().getProperty('applicationTemplateId');
 
 
 
@@ -58,6 +59,9 @@ function processApplication(formObj){
 	// Send application submission confirmation email
 	sendApplicationSubmissionConfirmation(applicationId);
 
+	// Create PDF of application
+	createApplicationPdf(applicationId);
+
 	// Return submission confirmation
 	html = HtmlService.createTemplateFromFile('application_submission_confirmation');
 	html.data = getProgramInfo(formObj.appProgram);
@@ -70,7 +74,7 @@ function setApplicationInfo(formObj){
 	var test, applicationId, appQuery, appDataQuery, queryArray, newId;
 
 	// Get application Id
-	applicationId = 'AEIPAPP' + PropertiesService.getScriptProperties().getProperty('nextApplicationId').toString();
+	applicationId = formObj.appProgram + 'A' + PropertiesService.getScriptProperties().getProperty('nextApplicationId').toString();
 
 	// Insert info into Applications table
 	appQuery = 'INSERT INTO Applications (application_id, proposed_schedule, criteria, outcomes, progress_measure, resources, special_events, target_enrollment, participation_rate, terms, payment_acknowledgement, program_id) VALUES("' + applicationId + '", "' + formObj.proposedSched + '", "' + formObj.criteriaReqs + '", "' + formObj.appGoals + '", "' + formObj.appProgress + '", "' + formObj.appNeeds + '", "' + formObj.appEvents + '", "' + formObj.appTarget + '", "' + formObj.appParticipation + '", "' + formObj.appTerms + '", "' + formObj.appPayment + '", "' + formObj.appProgram + '")';
@@ -116,4 +120,60 @@ function sendApplicationSubmissionConfirmation(applicationId){
 	// Update Application_Data table
 	alertQuery = 'UPDATE Application_Data SET application_confirmation = "' + new Date() + '" WHERE application_id = "' + applicationId + '"';
 	NVGAS.updateSqlRecord(dbString, [alertQuery]);
+}
+
+
+
+function createApplicationPdf(applicationId){
+	var test, application, program, schoolQuery, school, applicationFolder, template, filename, workingDocId, workingDoc, finalDoc, updateQuery;
+
+	// Get application and program information
+	application = getApplicationInfo(applicationId);
+	program = getProgramInfo(application.program_id);
+
+
+	// Get school application folder
+	schoolQuery = 'SELECT s.school, s.application_folder_id FROM Schools s INNER JOIN Programs p ON s.school = p.school WHERE p.program_id = "' + application.program_id + '"';
+	school = NVGAS.getSqlRecords(dbString, schoolQuery)[0];
+	applicationFolder = DriveApp.getFolderById(school.application_folder_id);
+
+	// Create copy of template
+	template = DriveApp.getFileById(APPLICATIONTEMPLATEID);
+	filename = program.program_name + ' | ' + USER.employee_name + ' | ' + applicationId;
+	workingDocId = template.makeCopy(filename).getId();
+
+	// Merge application info into document
+	workingDoc = DocumentApp.openById(workingDocId);
+	getDocumentMergeFields(workingDoc).forEach(function(e){
+		var key = e.split('<<')[1].split('>>')[0];
+		if(key in program){
+			workingDoc.getBody().replaceText(e, program[key]);
+		}
+		if(key in USER){
+			workingDoc.getBody().replaceText(e, USER[key]);
+		}
+		if(key in application){
+			workingDoc.getBody().replaceText(e, application[key]);
+		}
+		workingDoc.getFooter().replaceText(e, program[key]);
+		return;
+	});
+
+	// Cleanup documents
+	workingDoc.saveAndClose();
+	finalDoc = applicationFolder.createFile(DriveApp.getFileById(workingDocId).getAs('application/pdf'));
+	DriveApp.getFileById(workingDocId).setTrashed(true);
+
+	// Update Program_data table
+	updateQuery = 'UPDATE Application_Data SET pdf_id = "' + finalDoc.getId() + '", pdf_url = "' + finalDoc.getUrl() + '" WHERE application_id = "' + applicationId + '"';
+	NVGAS.updateSqlRecord(dbString, [updateQuery]);
+}
+
+
+
+function getApplicationInfo(applicationId){
+	var test, query;
+
+	query = 'SELECT * FROM Applications a INNER JOIN Application_Data d ON a.application_id = d.application_id WHERE a.application_id = "' + applicationId + '"';
+	return NVGAS.getSqlRecords(dbString, query)[0];
 }
