@@ -62,6 +62,9 @@ function processApplication(formObj){
 	// Create PDF of application
 	createApplicationPdf(applicationId);
 
+	// Send application to DSO
+	sendApplicationToDso(applicationId);
+
 	// Return submission confirmation
 	html = HtmlService.createTemplateFromFile('application_submission_confirmation');
 	html.data = getProgramInfo(formObj.appProgram);
@@ -176,4 +179,42 @@ function getApplicationInfo(applicationId){
 
 	query = 'SELECT * FROM Applications a INNER JOIN Application_Data d ON a.application_id = d.application_id WHERE a.application_id = "' + applicationId + '"';
 	return NVGAS.getSqlRecords(dbString, query)[0];
+}
+
+
+
+function sendApplicationToDso(applicationId){
+	var test, appInfo, program, recipientQuery, recipients, subject, html, template, fileQuery, fileId, application, updateQuery;
+
+	// Get application info
+	appInfo = getApplicationInfo(applicationId);
+	program = getProgramInfo(appInfo.program_id);
+
+	// Get recipients
+	recipientQuery = 'SELECT username FROM Users WHERE roles LIKE "%DSO%" AND school = "' + USER.school + '"';
+	recipients = NVGAS.getSqlRecords(dbString, recipientQuery).map(function(e){
+		return e.username;
+	}).join();
+
+	subject = 'AEIP Application Submitted | ' + USER.employee_name + ' | ' + program.program_name;
+
+	// Get message body
+	html = HtmlService.createTemplateFromFile('application_submission_email_dso');
+	html.program = program;
+	html.appInfo = appInfo;
+	html.applicant = USER;
+	html.url = PropertiesService.getScriptProperties().getProperty('leadershipUrl');
+	template = html.evaluate().setSandboxMode(HtmlService.SandboxMode.IFRAME).getContent();
+
+	// Get attachment
+	fileQuery = 'SELECT pdf_id FROM Application_Data WHERE application_id = "' + applicationId + '"';
+	fileId = NVGAS.getSqlRecords(dbString, fileQuery)[0].pdf_id;
+	application = DriveApp.getFileById(fileId);
+
+	// Send email
+	GmailApp.sendEmail(recipients, subject, "", {htmlBody: template, attachments: application});
+
+	// Update Application_Data table
+	updateQuery = 'UPDATE Application_Data SET submission_notification = "' + new Date() + '" WHERE application_id = "' + applicationId + '"';
+	NVGAS.updateSqlRecord(dbString, [updateQuery]);
 }
