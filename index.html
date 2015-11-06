@@ -39,15 +39,6 @@
         <!-- Home page -->
         <div class="page" id="index">
           <div>
-            <!-- <div class="row text-center">
-              <h1 class="text-nvBlue">A<small>cademic</small> E<small>nrichment</small> I<small>ntervention</small> P<small>rogram</small></h1>
-            </div> -->
-            <div class="row vertical-center" id="homeBtns" style="display:none">
-              <a class="btn btn-lg btn-primary" type="button" id="subProgramBtn">Submit AEIP</a>
-              <button class="btn btn-lg btn-primary btn-validated" type="button" id="approvalBtn" disabled="disabled">
-                Approvals
-              </button>
-            </div> <!-- home btns -->
             <div id="usrValid" class="row vertical-center">
              <form id="userForm" class="form-inline" onsubmit="return false">
                <div class="form-group">
@@ -66,8 +57,17 @@
           </div>
         </div>
         
+        <!-- Leadership Portal -->
+        <div class="page" id="leadershipPortal" style="display:none"><?!= include('leadership_home_page'); ?></div>
+
+        <!-- Staff Portal -->
+        <div class="page" id="staffPortal" style="display:none"><?!= include('staff_home_page'); ?></div>
+
         <!-- Submit Program Form -->
         <div class="page" id="subProgramFormPage" style="display:none"><?!= include('submit_program_form'); ?></div>
+
+        <!-- Submit Application Page -->
+        <div class="page" id="applicationPage" style="display:none"></div>
         
         <!-- Process Trip Requests -->
         <div class="page" id="approvalsPage" style="display:none"><?!= include('approvals_page'); ?></div>
@@ -86,23 +86,13 @@
 $(function(){
 
   $(document).ready(loadIndexActions);
-  $('#subProgramBtn').click(loadProgramForm);
-  $('#approvalBtn').click(loadApprovalPage);
   $('#usrEmailBtn').click(getUserEmail);
   
   function getUserEmail(){
     $('.load-bar').show();
     var $email = $('#usrEmail').val().trim();
-    google.script.run.withSuccessHandler(showButtons).setCurrentUser($email);
-  }
-  
-  function showButtons(){
-    $('.load-bar').show();
-    google.script.run.withSuccessHandler(verifyUser).validateUser();
-    $('#usrValid').hide();
-    $('#homeBtns').show();
-    $('#reqBtn').prop('disabled', false);
-    $('.load-bar').hide();
+    google.script.run.withSuccessHandler().setCurrentUser($email);
+    google.script.run.withSuccessHandler(showPortal).getUserRole();
   }
   
   function loadIndexActions(){
@@ -112,31 +102,12 @@ $(function(){
   
   function usernameCheck(answer){
     if(answer == true){
-      showButtons();
+      google.script.run.withSuccessHandler(showPortal).getUserRole();
     }
     else{
-      $('#homeBtns').hide();
       $('#usrValid').show();
     }
     $('.load-bar').hide();
-  }
-  
-  function loadProgramForm(resultHtml){
-    $('.page').hide();
-    $('#subProgramFormPage').show();
-    /* Change the following later */
-//    $('#trpSubConf').hide(); 
-//    $('#trpFormSub').show();
-    $('#propForm').trigger("reset");
-  }
-  
-  function loadApprovalPage(){
-    $('.load-bar').show();
-    google.script.run.withSuccessHandler(updateActionItems).getApprovalActionItems();
-    $('.page').hide();
-    $('.proposalForm').hide();
-    $('#actionItems').show();
-    $('#approvalsPage').show();
   }
   
   function verifyUser(answer){
@@ -146,9 +117,36 @@ $(function(){
     $('.load-bar').hide();
   }
   
-  function updateActionItems(resultHtml){
-    var $output = $('#actionItems');
-    $output.html(resultHtml);
+  function showPortal(userRole){
+    // Show load-bar
+    $('.load-bar').show();
+
+    // Display portal based on role
+    switch(userRole){
+      case "DSO":
+        $('.page').hide();
+        $('#leadershipPortal').show();
+        $('#usrValid').hide();
+        $('.leadershipBtn').show();
+        $('.staffBtn').hide();
+        break;
+      case "P":
+        $('.page').hide();
+        $('#leadershipPortal').show();
+        $('#usrValid').hide();
+        $('.leadershipBtn').show();
+        $('.staffBtn').hide();
+        break;
+      default:
+        $('.page').hide();
+        $('#staffPortal').show();
+        $('#usrValid').hide();
+        $('.staffBtn').show();
+        $('.leadershipBtn').hide();
+        break;
+    }
+
+    // hide load-bar
     $('.load-bar').hide();
   }
 

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h3 class="modal-title text-nvBlue" id="myModalLabel"><?= data.program_name ?> Application</h3>
+	      </div>
+	      <div class="modal-body" id="submitAppModalBody">
+	        <small>Principals, Assistant Principals, School Managers, DSOs, and School Assistants can be selected to lead a program but are not eligible to receive AEIP payments. If a School Assistant is selected they will be paid on an hourly basis with an overtime rate of 1.5 times their normal rate for any hours over 40 in a week.</small>
+	        <hr>
+
+			<form class="form-horizontal" method="get" onsubmit="return false" id="appForm">
+
+				<div class="form-group" data-toggle="popover" data-placement="right" data-trigger="hover" title="If not previously defined">
+			        <label class="control-label col-md-3" for="proposedSched">Proposed Schedule</label>
+			        <div class="col-md-9">
+			            <textarea class="form-control col-md-6" name="proposedSched" id="proposedSched"></textarea>
+			        </div>
+			    </div> <!-- form-group -->
+
+			    <div class="form-group">
+			        <label class="control-label col-md-3" for="criteriaReqs">Please describe how you meet the criteria and requirements for this vacancy and why you would be the best employee for this role</label>
+			        <div class="col-md-9">
+			            <textarea class="form-control col-md-6" name="criteriaReqs" id="criteriaReqs" rows="9" required="true"></textarea>
+			        </div>
+			    </div> <!-- form-group -->
+
+			    <div class="form-group" data-toggle="popover" data-placement="right" data-trigger="hover" title="Please insert brief overview of what will be covered in the program. At the end of this program, identify what students will be able to 1) know 2) understand.">
+			        <label class="control-label col-md-3" for="appGoals">Goals and Outcomes</label>
+			        <div class="col-md-9">
+			            <textarea class="form-control col-md-6" name="appGoals" id="appGoals" required="true"></textarea>
+			        </div>
+			    </div> <!-- form-group -->
+
+			    <div class="form-group" data-toggle="popover" data-placement="right" data-trigger="hover" title="Explanation of how progress will be measured.">
+			        <label class="control-label col-md-3" for="appProgress">Progress Measure</label>
+			        <div class="col-md-9">
+			            <textarea class="form-control col-md-6" name="appProgress" id="appProgress" required="true"></textarea>
+			        </div>
+			    </div> <!-- form-group -->
+
+			    <div class="form-group" data-toggle="popover" data-placement="right" data-trigger="hover" title="Please specify a bulleted list of required materials and estimated costs; include any assistance and potential costs from additional non-exempt staff support, such as school aides, who are hourly and eligible for overtime.">
+			        <label class="control-label col-md-3" for="appNeeds">Needs and Resources</label>
+			        <div class="col-md-9">
+			            <textarea class="form-control col-md-6" name="appNeeds" id="appNeeds" required="true"></textarea>
+			        </div>
+			    </div> <!-- form-group -->
+
+			    <div class="form-group" data-toggle="popover" data-placement="right" data-trigger="hover" title="Please specify if there will be a culminating event or project at the conclusion of this program and what it would entail. Please also specify any requested field trips to be performed as part of the program, including a budgeted list of estimated costs for each item.">
+			        <label class="control-label col-md-3" for="appEvents">Special Events</label>
+			        <div class="col-md-9">
+			            <textarea class="form-control col-md-6" name="appEvents" id="appEvents" required="true"></textarea>
+			        </div>
+			    </div> <!-- form-group -->
+
+			    <div class="form-group">
+			        <label class="control-label col-md-3" for="appTarget">Target Enrollment</label>
+			        <div class="col-md-3">
+			            <input type="number" min="1" class="form-control col-md-6" name="appTarget"  id="appTarget" required="true">
+			        </div>
+			    </div> <!-- form-group -->
+
+			    <div class="form-group">
+			        <label class="control-label col-md-3" for="appParticipation">Average Rate of Participation</label>
+			        <div class="col-md-3">
+			        	<div class="input-group">
+				            <input type="number" min="1" class="form-control col-md-6" name="appParticipation"  id="appParticipation" required="true">
+				            <span class="input-group-addon"><span>%</span>
+				        </div>
+			        </div>
+			    </div> <!-- form-group -->
+
+			    <hr>
+
+			    <div class="form-group">
+			    	<h4 class="text-nvBlue">Terms & Agreement</h4>
+			    	<p class="col-md-10 col-md-offset-1">By checking the box below I acknowledge that I am only selected for leading this AEIP activity if the Principal approves my selection and that in order to be eligible to receive payment for this AEIP activity I must fulfill all of the posted requirements listed and within the timelines specified or payment will be withheld.</p>
+			        <div class="checkbox">
+			        	<label for="appTerms">
+			        		<input type="checkbox" id="appTerms" name="appTerms" required="true">
+			        		I agree to the terms stated above
+			        	</label>
+			        </div>
+		        </div> <!-- form-group -->
+
+		        <hr>
+
+		        <div class="form-group">
+			    	<h4 class="text-nvBlue">Payment Acknowledgement</h4>
+			    	<p class="col-md-10 col-md-offset-1">By checking the box below I acknowledge that if I am a school Principal, Assistant Principal, School Manager, DSO, or School Assistant I understand I am not eligible to receive an AEIP payment. Furthermore if I am a School Assistant and I am selected to lead this stipend activity that I will continue to be paid on an hourly basis at an overtime rate of 1.5 times my normal rate for any hours over 40 in a week.</p>
+			        <div class="checkbox">
+			        	<label for="appPayment">
+			        		<input type="checkbox" id="appPayment" name="appPayment" required="true">
+			        		I acknowledge that I have read and agree to the above statement
+			        	</label>
+			        </div>
+		        </div> <!-- form-group -->
+
+		        <div class="form-group" style="display:none">
+			        <label class="control-label col-md-3" for="appProgram">Program</label>
+			        <div class="col-md-6">
+			            <input type="text" class="form-control col-md-6" name="appProgram"  id="appProgram" required="true" value="<?= data.program_id ?>">
+			        </div>
+			    </div> <!-- form-group -->
+
+			</form>
+
+	      </div> <!-- modal body -->
+	      <div class="modal-body" id="appSubmissionConfirmation" style="display:none"></div> <!-- modal body confirmation -->
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal" id="submitAppCloseBtn">Close</button>
+	        <button type="button" class="btn btn-primary" id="submitAppBtn">Submit</button>
+	      </div>
+	    </div>
+	  </div>
+  </body>
+
+  <script>
+	$(function(){
+
+		$('#submitAppBtn').click(submitApplication);
+		$('[data-toggle="popover"]').popover();
+
+		function submitApplication(){
+			// Show load bar
+			$('.load-bar').show();
+
+			// Get form field values
+			var $inputs = $('#appForm :input');
+			var values = {};
+			$inputs.each(function(){
+				values[this.name] = $(this).val();
+			});
+
+			// Send values to server
+			google.script.run.withSuccessHandler(displayApplicationConfirmation).processApplication(values);
+		}
+
+		function displayApplicationConfirmation(resultHtml){
+			// Get ouput div
+			var $output = $('#appSubmissionConfirmation');
+
+			// Set html of output div
+			$output.html(resultHtml);
+
+			// Show output
+			$('.modal-body').hide();
+			$('#submitAppBtn').hide();
+			$output.show();
+
+			// Hide load-bar
+			$('.load-bar').hide();
+		}
+
+
+	});
+  </script>
+</html>
+

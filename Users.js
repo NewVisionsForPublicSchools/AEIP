@@ -1,6 +1,6 @@
 var dbString = PropertiesService.getScriptProperties().getProperty('DBSTRING');
 var userColumns = 'username,roles';
-var staffListId = PropertiesService.getScriptProperties().getProperty('STAFFLISTID')
+var staffListId = PropertiesService.getScriptProperties().getProperty('STAFFLISTID');
 var USER = JSON.parse(PropertiesService.getUserProperties().getProperty('currentUser'));
 
 
@@ -43,30 +43,8 @@ function setCurrentUser(email){
 
 
 
-//function getUserRole(user){
-//  var test, currentUser, query, userRole;
-//  
-//  currentUser = user || PropertiesService.getUserProperties().getProperty('currentUser');
-//  query = 'SELECT roles FROM Users WHERE username = "' + currentUser + '"'
-//  userRole = NVGAS.getSqlRecords(dbString, query)[0];
-//  return userRole;
-//}
-
-
-
-//function getCurrentSchool(user){
-//  var test, currentUser, query, userSchool;
-//  
-//  currentUser = user || PropertiesService.getUserProperties().getProperty('currentUser');
-//  query = 'SELECT school FROM Users WHERE username = "' + currentUser + '"'
-//  userSchool = NVGAS.getSqlRecords(dbString, query)[0].school;
-//  return userSchool;
-//}
-
-
-
 function getStaffListInfo(username){
-  var test, staffListSs, staffListSheet, staffList, userRecord, userSchool, query, class, name, userRole;
+  var test, staffListSs, staffListSheet, staffList, userRecord, userSchool, query, jobClass, name, userRole;
   
   staffListSs = SpreadsheetApp.openById(staffListId);
   staffListSheet = staffListSs.getSheetByName('Sheet1');
@@ -100,7 +78,7 @@ function getStaffListInfo(username){
         break;
       default:
         break;
-    };
+    }
     
     switch(userRecord.jobLevel){
       case "Director of School Operations":
@@ -111,13 +89,12 @@ function getStaffListInfo(username){
         break;
       default:
         userRole = null;
-    };
+    }
     
-    class = userRecord.jobClass;
+    jobClass = userRecord.jobClass;
     name = userRecord.employeeName;
-    query = 'INSERT INTO Users (username, school, job_class, employee_name, roles) VALUES("' + username + '","'
-            + userSchool + '","' + class + '","' + name + '","' + userRole + '")';
-    NVGAS.insertSqlRecord(dbString, [query])
+    query = 'INSERT INTO Users (username, school, job_class, employee_name, roles) VALUES("' + username + '","' + userSchool + '","' + jobClass + '","' + name + '","' + userRole + '")';
+    NVGAS.insertSqlRecord(dbString, [query]);
     sQuery = 'SELECT * FROM Users WHERE username = "' + username + '"';
     return NVGAS.getSqlRecords(dbString, [sQuery])[0];
   }

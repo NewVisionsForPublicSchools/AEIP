@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <div class="text-center">
+	  <h1 class="text-nvBlue">AEIP Application</h1>
+	  <br/>
+	  
+	  <h3 class="pull-left text-nvGray">Programs with Openings</h3>
+	  <table id="appTbl" class="table table-striped">
+	    <tr>      
+	      <th class="bg-primary text-center">Program Name</th>
+	      <th class="bg-primary text-center">Posting Date</th>
+	      <th class="bg-primary text-center">Application Deadline</th>
+	      <th class="bg-primary text-center">Trimester(s)</th>
+	      <th class="bg-primary text-center">Number of Facilitators</th>
+	      <th class="bg-primary text-center">Start Date</th>
+	      <th class="bg-primary text-center">End Date</th>
+	      <th class="bg-primary text-center">Hours Per Trimester</th>
+	      <th class="bg-primary text-center">Application</th>
+	    </tr> <!-- close header row -->
+	    
+	    <? for(var i=0;i<data.length;i++){ ?>
+	      <tr>
+	        <td><b><?= data[i].program_name ?></b></td>
+	        <td><?= data[i].post_date ?></td>
+	        <td><?= data[i].application_deadline ?></td>
+	        <td><?= data[i].trimester ?></td>
+	        <td><?= data[i].number_of_positions ?></td>
+	        <td><?= data[i].start_date ?></td>
+	        <td><?= data[i].end_date ?></td>
+	        <td><?= data[i].hours_per_trimester ?></td>
+	        <td><button class="btn btn-xs btn-primary applyToProgram" data-toggle="modal" data-target="#applyModal" value=<?= data[i].program_id ?>>Apply</button></td>
+	      </tr>
+	    <? } ?>
+	  </table>
+
+	<!-- Modal -->
+	<div class="modal fade" id="applyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+	  
+	</div>
+  </body>
+
+
+
+  <script>
+	  $(function(){
+
+	  	$('.applyToProgram').click(function(){
+	  		$('.load-bar').show();
+	  		var $program = $(this).attr('value');
+	  		google.script.run.withSuccessHandler(showApplication).loadApplicationForm($program);
+	  	});
+
+	  	function showApplication(resultHtml){
+	  		// Set modal html
+	  		var $output = $('#applyModal');
+	  		$output.html(resultHtml);
+
+	  		// Hide load-bar
+	  		$('.load-bar').hide();
+	  	}
+
+	  });
+  </script>
+</html>

@@ -3,39 +3,49 @@ var dbString = PropertiesService.getScriptProperties().getProperty('DBSTRING');
 
 
 function processPrincipalProposalResponse(formObj){
-	var test, queryArray, queue, justificationQuery, moreInfoQuery, responseQuery, html;
+	var test, queryArray, program, today, postDate, appDeadline, queue, status, justificationQuery, moreInfoQuery, responseQuery, html;
 
 	queryArray = [];
-	
+	program = getProgramInfo(formObj.programId);
+	today = new Date().getTime();
+	postDate = new Date(program.post_date.split('-')[0].program.post_date.split('-')[1]-1,program.post_date.split('-')[2]).getTime();
+	appDeadline = new Date(program.application_deadline.split('-')[0].program.application_deadline.split('-')[1]-1,program.application_deadline.split('-')[2]).getTime();
 
 	switch(formObj.principalResponse){
 		case 'Yes':
 			createProgramAnnouncement(formObj.programId);
 			sendProgramAnnouncement(formObj.programId);
+			setOpenApplicationWindow();
 			queue = "";
+			status = "Approved";
+			if((today >= postDate) && (today <= appDeadline)){
+				setOpenApplicationWindow();
+			}
 			break;
 		case 'No':
 			sendRejectionNotification(formObj.programId, formObj.principalProposalJustification);
 			justificationQuery = 'UPDATE Program_Data pd SET pd.principal_proposal_justification = "' + formObj.principalProposalJustification.trim() + '" WHERE pd.program_id = "' + formObj.programId + '"';
 			queryArray.push(justificationQuery);
 			queue = "";
+			status = "Rejected";
 			break;
 		case 'More Information Needed':
 			sendMoreInfoNotification(formObj.programId, formObj.principalMoreInfoReason);
 			moreInfoQuery = 'UPDATE Program_Data pd SET pd.principal_proposal_more_info = "' + formObj.principalMoreInfoReason.trim() + '" WHERE pd.program_id = "' + formObj.programId + '"';
 			queryArray.push(moreInfoQuery);
 			queue = "DSO";
+			status = "Under Review";
 			break;
 		default:
 			break;
 	}
 
-	responseQuery = 'UPDATE Program_Data pd SET pd.principal_proposal_response = "' + formObj.principalResponse + '", pd.queue = "' + queue + '", pd.proposal_response_date = "' + new Date() + '" WHERE pd.program_id = "' + formObj.programId + '"';
+	responseQuery = 'UPDATE Program_Data pd SET pd.principal_proposal_response = "' + formObj.principalResponse + '", pd.queue = "' + queue + '", pd.proposal_response_date = "' + new Date() + '", pd.status = "' + status + '" WHERE pd.program_id = "' + formObj.programId + '"';
 	queryArray.push(responseQuery);
 	NVGAS.insertSqlRecord(dbString, queryArray);
 
 	html = HtmlService.createTemplateFromFile('principal_proposal_response_confirmation');
-	html.program = getProgramInfo(formObj.programId);
+	html.program = program;
 	return html.evaluate().setSandboxMode(HtmlService.SandboxMode.IFRAME).getContent();
 }
 

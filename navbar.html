@@ -14,9 +14,8 @@
 
         <div class="navbar-right">
           <button type="button" class="btn btn-default navbar-btn" id="homeBtn">Home</button>
-          <button type="button" class="btn btn-default navbar-btn" id="programBtn">Submit AEIP</button>
-          <button type="button" class="btn btn-default navbar-btn btn-validated" id="procBtn" disabled="disabled">
-          Approvals</button>
+          <button type="button" class="btn btn-default navbar-btn leadershipBtn" id="programBtn" style="display:none">Submit AEIP</button>
+          <button type="button" class="btn btn-default navbar-btn btn-validated leadershipBtn" id="procBtn" style="display:none">Approvals</button>
         </div>
       </div>
       <!-- /.navbar-collapse -->
@@ -31,7 +30,10 @@
 $(function(){
 
   $('#programBtn').click(loadProgramForm);
-  $('#homeBtn').click(loadHome);
+  $('#homeBtn').click(function(){
+    $('.load-bar').show();
+    google.script.run.withSuccessHandler(loadHome).getUserRole();
+  });
   $('#procBtn').click(loadProc);
   
   function loadProgramForm(){
@@ -40,15 +42,36 @@ $(function(){
 //    $('#resetReq').click();
   }
   
-  function loadHome(){
+  function loadHome(userRole){
     $('.page').hide();
-    $('#index').show();
+    $('#usrValid').hide();
+
+    // Display portal based on role
+    switch(userRole){
+      case "DSO":
+        $('#leadershipPortal').show();
+        $('.leadershipBtn').show();
+        $('.staffBtn').hide();
+        break;
+      case "P":
+        $('#leadershipPortal').show();
+        $('.leadershipBtn').show();
+        $('.staffBtn').hide();
+        break;
+      default:
+        $('#staffPortal').show();
+        $('.staffBtn').show();
+        $('.leadershipBtn').hide();
+        break;
+    }
+
+    $('.load-bar').hide();
   }
   
   function loadProc(){
     $('#approvalBtn').click();
   }
-  
+
 });
 
 </script>
